@@ -27,16 +27,22 @@
             <div class="flex flex-col gap-2 flex-1">
                 <flux:heading size="lg" class="flex flex-row gap-2 items-center">
                         {{ $endpoint->description }}
-                        <flux:badge variant="solid" size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }} </flux:badge>
+                        <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }} </flux:badge>
                         @if ($endpoint->require_auth)
                             <flux:icon variant="solid" name="lock-closed" color="orange">Public</flux:badge>
                         @endif
                 </flux:heading>
                 <p class="text-sm dark:text-gray-300 text-gray-800">/api/userid/{{ $endpoint->slug }}</p>
             </div>
+            @if($endpoint->delay_ms != 0)
             <div class="flex flex-col items-end mr-8">
-                <flux:badge variant="solid" size="sm" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
-                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: 2m</p>
+                <span class="flex flex-row gap-2 font-semibold items-center"><flux:icon class="size-5" color="gray" name="clock" /> {{ $endpoint->delay_ms}}ms</span>
+                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Delay</p>
+            </div>
+            @endif
+            <div class="flex flex-col items-end mr-8">
+                <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
+                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: 2m ago</p>
             </div>
             <flux:dropdown>
                 <flux:button icon:trailing="ellipsis-horizontal"></flux:button>
