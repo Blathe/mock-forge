@@ -1,6 +1,6 @@
 <div>
     <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
-        <form wire:input.debounce.500ms="search">
+        <form wire:input.debounce.750ms="search">
                 <flux:input wire:model="search_string" kbd="⌘K" icon="magnifying-glass" placeholder="Search..." />
         </form>
         <div class="flex flex-none gap-2 items-center">
@@ -27,7 +27,7 @@
             <div class="flex flex-col gap-2 flex-1">
                 <flux:heading size="lg" class="flex flex-row gap-2 items-center">
                         {{ $endpoint->description }}
-                        <flux:badge variant="solid" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }} </flux:badge>
+                        <flux:badge variant="solid" size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }} </flux:badge>
                         @if ($endpoint->require_auth)
                             <flux:icon variant="solid" name="lock-closed" color="orange">Public</flux:badge>
                         @endif
@@ -35,7 +35,7 @@
                 <p class="text-sm dark:text-gray-300 text-gray-800">/api/userid/{{ $endpoint->slug }}</p>
             </div>
             <div class="flex flex-col items-end mr-8">
-                <flux:badge variant="solid" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
+                <flux:badge variant="solid" size="sm" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
                 <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: 2m</p>
             </div>
             <flux:dropdown>
