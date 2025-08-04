@@ -28,8 +28,8 @@
                 <p class="text-sm dark:text-gray-300 text-gray-800">/api/userid/{{ $endpoint->slug }}</p>
             </div>
             <div class="flex flex-col items-end mr-8">
-                <flux:badge color="green">Active</flux:badge>
-                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last checked: 2m</p>
+                <flux:badge color="{{ $endpoint->getVisibilityColor() }}">{{ $endpoint->getVisibility() }}</flux:badge>
+                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: 2m</p>
             </div>
             <flux:dropdown>
                 <flux:button icon:trailing="ellipsis-horizontal"></flux:button>

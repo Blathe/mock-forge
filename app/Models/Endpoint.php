@@ -32,6 +32,16 @@ class Endpoint extends Model
         'payload' => 'json',
     ];
 
+    public function getVisibility(): string
+    {
+        return $this->is_public ? 'Active' : 'Disabled';
+    }
+
+    public function getVisibilityColor(): string
+    {
+        return $this->is_public ? 'green' : 'red';
+    }
+
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
