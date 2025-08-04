@@ -1,10 +1,10 @@
 <div>
     <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
-        <form>
-            <flux:input kbd="⌘K" icon="magnifying-glass" placeholder="Search..." />
+        <form wire:input.debounce.500ms="search">
+                <flux:input wire:model="search_string" kbd="⌘K" icon="magnifying-glass" placeholder="Search..." />
         </form>
-        <div class="flex gap-2 items-center">
-            <flux:select placeholder="By status">
+        <div class="flex flex-none gap-2 items-center">
+            <flux:select class="w-48" placeholder="By status">
                 <flux:select.option>Active</flux:select.option>
                 <flux:select.option>Disabled</flux:select.option>
             </flux:select>

@@ -10,6 +10,9 @@ class DashboardEndpointList extends Component
 {
     public $endpoints = [];
 
+    public $search_string = '';
+    public $filter_status = 'all';
+
     public function render()
     {
         return view('livewire.dashboard-endpoint-list');
@@ -26,5 +29,14 @@ class DashboardEndpointList extends Component
         session()->flash('message', __('Endpoint deleted successfully.'));
 
         return redirect()->route('endpoints.index');
+    }
+
+    public function search() {
+        $this->endpoints = Endpoint::where('user_id', Auth::id())
+            ->when($this->search_string, function ($query) {
+                $query->where('slug', 'like', '%' . $this->search_string . '%')
+                      ->orWhere('description', 'like', '%' . $this->search_string . '%');
+            })
+            ->get();
     }
 }
