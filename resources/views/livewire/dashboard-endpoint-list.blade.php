@@ -19,11 +19,14 @@
     @foreach ($endpoints as $endpoint)
         <div
             class="flex gap-2 items-center p-4 h-32 shadow-sm overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 mb-4">
-            <flux:icon.check-circle class="text-green-500" />
-            <div class="flex flex-col flex-1">
-                <flux:heading size="lg">
-                    {{ $endpoint->description }} <flux:badge color="green">{{ $endpoint->method }}
-                    </flux:badge>
+            <flux:icon name="check-circle" color="{{$endpoint->getVisibilityColor()}}" />
+            <div class="flex flex-col gap-2 flex-1">
+                <flux:heading size="lg" class="flex flex-row gap-2 items-center">
+                        {{ $endpoint->description }}
+                        <flux:badge color="green">{{ $endpoint->method }} </flux:badge>
+                        @if ($endpoint->is_public)
+                            <flux:icon variant="solid" name="lock-closed" color="orange">Public</flux:badge>
+                        @endif
                 </flux:heading>
                 <p class="text-sm dark:text-gray-300 text-gray-800">/api/userid/{{ $endpoint->slug }}</p>
             </div>
