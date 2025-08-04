@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Livewire\Forms;
+
+use Livewire\Form;
+use App\Models\Endpoint;
+use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\Auth;
+
+class EndpointForm extends Form
+{
+    public ?Endpoint $endpoint;
+
+    #[Validate('required|string|max:255')]
+    public string $slug = '';
+
+    #[Validate('required|string|max:128')]
+    public string $description = '';
+
+    #[Validate('required|string|in:GET,POST,PUT,PATCH,DELETE')]
+    public string $method = 'GET';
+
+    #[Validate('boolean')]
+    public bool $require_auth = false;
+
+    #[Validate('nullable|string|max:255|required_if:require_auth,true')]
+    public ?string $auth_token = null;
+
+    #[Validate('required|integer|min:100|max:599')]
+    public int $status_code = 200;
+
+    #[Validate('integer|min:0|max:10000')]
+    public int $delay_ms = 0;
+
+    #[Validate('boolean')]
+    public bool $is_public = false;
+
+    #[Validate('nullable|json')]
+    public ?string $payload = null;
+
+    public function submit() {
+        $this->validate();
+
+        $endpoint = $this->all();
+        $endpoint['user_id'] = Auth::id();
+
+        Endpoint::create($endpoint);
+
+        session()->flash('message', __('Endpoint created successfully.'));
+
+        $this->reset();
+    }
+
+    public function update() {
+        $this->validate();
+
+        if ($this->endpoint) {
+            $this->endpoint->update($this->all());
+            session()->flash('message', __('Endpoint updated successfully.'));
+        } else {
+            session()->flash('error', __('Endpoint not found.'));
+        }
+    }
+}
