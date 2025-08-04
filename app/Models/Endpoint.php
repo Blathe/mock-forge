@@ -42,6 +42,17 @@ class Endpoint extends Model
         return $this->is_public ? 'green' : 'red';
     }
 
+    public function getMethodColor(): string
+    {
+        return match ($this->method) {
+            'GET' => 'blue',
+            'POST' => 'green',
+            'PUT' => 'yellow',
+            'DELETE' => 'red',
+            default => 'gray',
+        };
+    }
+
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }

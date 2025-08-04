@@ -6,7 +6,7 @@
         <div class="flex gap-2 items-center">
             <flux:select placeholder="By status">
                 <flux:select.option>Active</flux:select.option>
-                <flux:select.option>Inactive</flux:select.option>
+                <flux:select.option>Disabled</flux:select.option>
             </flux:select>
             <flux:modal.trigger name="create-endpoint">
                 <flux:button color="green" variant="primary" icon="plus">Create Endpoint</flux:button>
@@ -16,22 +16,26 @@
             </flux:modal>
         </div>
     </div>
+    @if ($endpoints->isEmpty())
+        <div class="text-center text-gray-500 dark:text-gray-400 items-center flex flex-col justify-center h-64">
+            <p>No endpoints found. Create one to get started.</p>
+        </div>
+    @endif
     @foreach ($endpoints as $endpoint)
-        <div
-            class="flex gap-2 items-center p-4 h-32 shadow-sm overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 mb-4">
+        <x-card class="flex flex-row items-center justify-between gap-4 mb-4">
             <flux:icon name="check-circle" color="{{$endpoint->getVisibilityColor()}}" />
             <div class="flex flex-col gap-2 flex-1">
                 <flux:heading size="lg" class="flex flex-row gap-2 items-center">
                         {{ $endpoint->description }}
-                        <flux:badge color="green">{{ $endpoint->method }} </flux:badge>
-                        @if ($endpoint->is_public)
+                        <flux:badge variant="solid" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }} </flux:badge>
+                        @if ($endpoint->require_auth)
                             <flux:icon variant="solid" name="lock-closed" color="orange">Public</flux:badge>
                         @endif
                 </flux:heading>
                 <p class="text-sm dark:text-gray-300 text-gray-800">/api/userid/{{ $endpoint->slug }}</p>
             </div>
             <div class="flex flex-col items-end mr-8">
-                <flux:badge color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
+                <flux:badge variant="solid" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
                 <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: 2m</p>
             </div>
             <flux:dropdown>
@@ -44,7 +48,7 @@
                     </flux:modal.trigger>
                 </flux:menu>
             </flux:dropdown>
-        </div>
+        </x-card>
 
         <flux:modal name="delete-endpoint-{{ $endpoint->id }}" class="min-w-[22rem]">
             <div class="space-y-6">
