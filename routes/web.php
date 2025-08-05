@@ -13,12 +13,18 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
+    //Endpoint endpoints
     Route::get('endpoints', [EndpointController::class, 'index'])
         ->name('endpoints.index');
     Route::get('endpoints/create', [EndpointController::class, 'create'])
         ->name('endpoints.create');
+    Route::get('endpoints/{id}', [EndpointController::class, 'show'])
+        ->name('endpoints.show');
     Route::get('endpoints/delete', [EndpointController::class, 'delete'])
         ->name('endpoints.delete');
+
+    Route::post('endpoints/{id}/update', [EndpointController::class, 'update'])
+        ->name('endpoints.update');
 });
 
 Route::middleware(['auth'])->group(function () {

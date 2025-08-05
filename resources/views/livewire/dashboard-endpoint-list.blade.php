@@ -32,7 +32,7 @@
                             <flux:icon variant="solid" name="lock-closed" color="orange">Public</flux:badge>
                         @endif
                 </flux:heading>
-                <p class="text-sm dark:text-gray-300 text-gray-800">/api/userid/{{ $endpoint->slug }}</p>
+                <p class="text-sm dark:text-gray-300 text-gray-800">{{ $endpoint->getUrlSuffix() }}</p>
             </div>
             @if($endpoint->delay_ms != 0)
             <div class="flex flex-col items-end mr-8">
@@ -47,7 +47,7 @@
             <flux:dropdown>
                 <flux:button icon:trailing="ellipsis-horizontal"></flux:button>
                 <flux:menu>
-                    <flux:menu.item icon="plus">Details</flux:menu.item>
+                    <flux:menu.item icon="eye" href="/endpoints/{{ $endpoint->id }}">Details</flux:menu.item>
                     <flux:menu.separator />
                     <flux:modal.trigger name="delete-endpoint-{{ $endpoint->id }}">
                         <flux:menu.item variant="danger" icon="trash">Delete</flux:menu.item>

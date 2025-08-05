@@ -42,6 +42,17 @@ class Endpoint extends Model
         return $this->is_public ? 'green' : 'red';
     }
 
+    public function getUrlSuffix(): string
+    {
+        return "/api/{$this->user_id}/{$this->slug}";
+    }
+
+    public function getFullUrl(): string
+    {
+        $domain = config('app.url');
+        return url($domain . $this->getUrlSuffix());
+    }
+
     public function getMethodColor(): string
     {
         return match ($this->method) {

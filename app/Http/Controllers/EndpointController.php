@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Endpoint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EndpointController extends Controller
 {
@@ -16,6 +17,17 @@ class EndpointController extends Controller
     public function create()
     {
         return view('endpoints.create');
+    }
+
+    public function show($id, Request $request)
+    {
+        $endpoint = Endpoint::findOrFail($id);
+
+        if ($request->user()->cannot('update', $endpoint)) {
+            abort(403);
+        }
+
+        return view('endpoints.show', compact('endpoint'));
     }
 
     public function delete($id) {
