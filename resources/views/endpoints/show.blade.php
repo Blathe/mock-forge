@@ -24,10 +24,20 @@
 
     <div class="grid md:grid-rows-* gap-4">
         <x-card class="mb-4 md:col-span-1">
-            <flux:heading size="lg" class="mb-6">
-                {{ __('Endpoint Information') }}
-            </flux:heading>
+            <div class="flex flex-row justify-between items-center">
+                <flux:heading size="lg" class="mb-6">
+                    {{ __('Endpoint Information') }}
+                </flux:heading>
 
+                <!-- Endpoint History Modal -->
+                <flux:modal.trigger name="view-history-modal">
+                    <flux:button icon="clock">History</flux:button>
+                </flux:modal.trigger>
+                <flux:modal name="view-history-modal" class="md:w-full">
+                    <livewire:endpoint-history-modal :endpoint="$endpoint" />
+                </flux:modal>
+
+            </div>
             <flux:text class="font-semibold">URL</flux:text>
             <div class="flex flex-row gap-2 mb-2" x-data="{ copied: false, tooltip: 'Copy URL' }">
                 <flux:text x-ref="fullUrl"
