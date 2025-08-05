@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CreateEndpointHistory;
 use App\Models\Endpoint;
 use App\Models\EndpointHistory;
 use App\Models\User;
@@ -14,6 +15,8 @@ class ApiController extends Controller
     //
 
     public function show(Request $request, $user, $slug): JsonResponse {
+
+        //TODO: A lot of stuff in this controller should be done through Queues.
         $start_time = Carbon::now();
         $user = User::where('id', $user)->firstOrFail();
 
@@ -43,12 +46,8 @@ class ApiController extends Controller
             }
         }
 
-        $end_time = Carbon::now();
-
-        $diff = $start_time->diffInMilliseconds(Carbon::now());
-
-        $history = new EndpointHistory(['status_code' => $response->status(), 'response_time_ms' => $diff]);
-        $endpoint->histories()->save($history);
+        $response_time = $start_time->diffInMilliseconds(Carbon::now());
+        CreateEndpointHistory::dispatch($endpoint->id, $response->status(), $response_time);
 
         $endpoint->request_count += 1;
         $endpoint->save();

@@ -12,6 +12,7 @@ class EndpointHistory extends Model
     use HasFactory;
 
     protected $fillable = [
+        'endpoint_id',
         'status_code',
         'response_time_ms',
     ];
