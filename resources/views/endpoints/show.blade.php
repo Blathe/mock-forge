@@ -1,5 +1,8 @@
 <x-layouts.app :title="__('Endpoint Details')">
     <div class="flex flex-col items-start md:flex-row md:justify-between mb-4 gap-y-8">
+        @if (session()->has('success'))
+            <p class="text-green-600">{{ session('success') }}</p>
+        @endif
         <flux:button class="order-1" href="{{ route('endpoints.index') }}">
             <x-icon name="arrow-left" />
             {{ __('Back to Endpoints') }}
@@ -13,14 +16,14 @@
             <flux:text>{{ $endpoint->getUrlSuffix() }}</flux:text>
         </flux:heading>
         <flux:button variant="primary" color="blue" class="w-full order-3 md:w-auto "
-            href="{{ route('endpoints.index') }}">
+            href="{{ route('api.user.show', ['user_id' => $endpoint->user_id, 'slug' => $endpoint->slug]) }}">
             <x-icon name="play" />
             {{ __('Test Endpoint') }}
         </flux:button>
     </div>
 
-    <div class="grid grid-rows-auto md:grid-cols-5 md:gap-x-4">
-        <x-card class="mb-4 md:col-span-2">
+    <div class="grid md:grid-rows-* gap-4">
+        <x-card class="mb-4 md:col-span-1">
             <flux:heading size="lg" class="mb-6">
                 {{ __('Endpoint Information') }}
             </flux:heading>
@@ -45,7 +48,7 @@
             </flux:badge>
         </x-card>
 
-        <x-card class="mb-4 md:col-span-2 md:row-2">
+        <x-card class="mb-4 md:col-span-1">
             <flux:heading size="lg">
                 {{ __('Headers') }}
             </flux:heading>
@@ -63,10 +66,8 @@
             </div>
         </x-card>
 
-        <x-card class="md:col-span-3">
-            <flux:heading size="lg">
-                {{ __('Payload') }}
-            </flux:heading>
+        <x-card class="justify-start md:col-span-2">
+            <livewire:json-editor :endpoint="$endpoint" />
         </x-card>
     </div>
 </x-layouts.app>
