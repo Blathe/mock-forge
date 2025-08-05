@@ -46,6 +46,9 @@
             <flux:text class="font-semibold">Method</flux:text>
             <flux:badge class="self-start" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}
             </flux:badge>
+
+            <flux:text class="font-semibold">Request Count</flux:text>
+            <flux:text class="font-semibold">{{ $endpoint->request_count }}</flux:text>
         </x-card>
 
         <x-card class="mb-4 md:col-span-1">

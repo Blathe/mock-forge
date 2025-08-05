@@ -12,6 +12,7 @@ class ApiController extends Controller
     //
 
     public function show(Request $request, $user, $slug): JsonResponse {
+        $response_time = now();
         $user = User::where('id', $user)->firstOrFail();
 
         $endpoint = Endpoint::where('user_id', $user->id)
@@ -39,6 +40,10 @@ class ApiController extends Controller
                 $response->header($key, $value);
             }
         }
+
+        $duration = now() - $response_time;
+        $endpoint->request_count += 1;
+        $endpoint->save();
 
         return $response;
     }
