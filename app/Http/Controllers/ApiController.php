@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Endpoint;
+use App\Models\EndpointHistory;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,7 @@ class ApiController extends Controller
     //
 
     public function show(Request $request, $user, $slug): JsonResponse {
-        $response_time = now();
+        $start_time = Carbon::now();
         $user = User::where('id', $user)->firstOrFail();
 
         $endpoint = Endpoint::where('user_id', $user->id)
@@ -41,7 +43,13 @@ class ApiController extends Controller
             }
         }
 
-        $duration = now() - $response_time;
+        $end_time = Carbon::now();
+
+        $diff = $start_time->diffInMilliseconds(Carbon::now());
+
+        $history = new EndpointHistory(['status_code' => $response->status(), 'response_time_ms' => $diff]);
+        $endpoint->histories()->save($history);
+
         $endpoint->request_count += 1;
         $endpoint->save();
 

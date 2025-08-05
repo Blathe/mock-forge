@@ -11,6 +11,11 @@ class EndpointHistory extends Model
     /** @use HasFactory<\Database\Factories\EndpointHistoryFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'status_code',
+        'response_time_ms',
+    ];
+
     public function endpoint(): BelongsTo {
         return $this->belongsTo(Endpoint::class);
     }
