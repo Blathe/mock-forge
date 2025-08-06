@@ -50,7 +50,7 @@ class Endpoint extends Model
 
     public function getFullUrl(): string
     {
-        $domain = config('app.url');
+        $domain = env('APP_URL');
         return url($domain . $this->getUrlSuffix());
     }
 

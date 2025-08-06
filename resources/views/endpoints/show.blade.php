@@ -25,11 +25,11 @@
         </flux:button>
     </div>
 
-    <div class="grid md:grid-rows-* gap-4">
+    <div class="grid md:grid-rows-* md:grid-cols-3 gap-4">
         <!----------- Endpoint Info Card ------------>
-        <x-card class="mb-4 md:col-span-1">
+        <x-card class="mb-4 md:col-span-2">
             <div class="w-full">
-                <flux:heading size="lg" class="mb-6 flex flex-row justify-between items-center" >
+                <flux:heading size="lg" class="mb-6 flex flex-row justify-between items-center">
                     {{ __('Endpoint Information') }}
 
                     <!-- Endpoint History Trigger -->
@@ -87,7 +87,7 @@
         </x-card>
 
         <!----------- JSON Editor Card ------------>
-        <x-card class="justify-start md:col-span-2">
+        <x-card class="justify-start md:col-span-3">
             <livewire:json-editor :endpoint="$endpoint" />
         </x-card>
     </div>
