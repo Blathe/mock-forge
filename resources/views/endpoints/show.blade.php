@@ -43,7 +43,7 @@
             <div class="flex flex-row gap-2 mb-2" x-data="{ copied: false, tooltip: 'Copy URL' }">
                 <flux:text x-ref="fullUrl"
                     class="flex-1 font-semibold text-gray-800 dark:text-gray-300 bg-gray-100 dark:bg-zinc-700 p-2 rounded transition-all">
-                    {{ $endpoint->getFullUrl() }}
+                    {{ route('api.user.show', ['user_id' => $endpoint->user_id, 'slug' => $endpoint->slug]) }}
                 </flux:text>
                 <flux:tooltip x-bind:content="tooltip" position="top" class="transition-all">
                     <flux:button size="base" class="hover:cursor-pointer" x-bind:disabled="copied ? true : false"
