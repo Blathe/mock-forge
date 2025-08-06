@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Jobs\CreateEndpoint;
 use Livewire\Form;
 use App\Models\Endpoint;
 use Livewire\Attributes\Validate;
@@ -49,6 +50,7 @@ class EndpointForm extends Form
         session()->flash('message', __('Endpoint created successfully.'));
 
         $this->reset();
+        return redirect()->route('endpoints.index');
     }
 
     public function update() {

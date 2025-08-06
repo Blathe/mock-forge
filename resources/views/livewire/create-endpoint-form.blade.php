@@ -57,13 +57,13 @@
         </flux:field>
 
         <flux:field variant="inline" class="mb-4">
-            <flux:checkbox wire:model="form.requires_auth" />
+            <flux:checkbox wire:model="form.require_auth" />
             <flux:label>Require auth?</flux:label>
             <flux:description>Simulate authenticated calls to this endpoint.</flux:description>
             <flux:error name="form.requires_auth" />
         </flux:field>
 
-        <flux:field class="mb-4" wire:show="form.requires_auth">
+        <flux:field class="mb-4" wire:show="form.require_auth">
             <flux:label>Auth token</flux:label>
             <flux:description>Give this endpoint a custom auth token to simulate authenticated calls.
             </flux:description>

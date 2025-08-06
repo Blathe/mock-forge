@@ -35,6 +35,8 @@ class ApiController extends Controller
         if ($endpoint->require_auth) {
             $provided = $request->bearerToken();
             if(!$provided || $provided !== $endpoint->auth_token) {
+                $response_time = $start_time->diffInMilliseconds(Carbon::now());
+                CreateEndpointHistory::dispatch($endpoint->id, 401, $response_time); //create an unauthorized attempt in history.
                 return response()->json(['message' => 'Unauthorized'], 401);
             }
         }

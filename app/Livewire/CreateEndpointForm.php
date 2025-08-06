@@ -11,9 +11,6 @@ class CreateEndpointForm extends Component
 
     public function save() {
         $this->form->submit();
-
-        // Optionally, you can redirect or perform other actions after saving
-        return redirect()->route('endpoints.index');
     }
 
     public function render()

@@ -73,8 +73,8 @@
                 </div>
                 <flux:separator />
                 <div class="flex flex-row justify-between">
-                    <flux:text class="font-semibold">Headers</flux:text>
-                    <flux:text>Bearer Token</flux:text>
+                    <flux:text class="font-semibold">Authorization</flux:text>
+                    <flux:text>{{ $endpoint->require_auth ? "Bearer" : "N/A" }}</flux:text>
                 </div>
             </div>
         </x-card>
