@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CreateEndpointHistory;
 use App\Models\Endpoint;
-use App\Models\EndpointHistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -12,7 +11,30 @@ use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
-    //
+
+    public function insertFakerData($payload) {
+        $payload = json_encode($payload);
+
+        $result = preg_replace_callback('/{{(.*?)}}/', function ($matches) {
+            $placeholder = $matches[1];
+            switch ($placeholder) {
+                case 'name':
+                    return fake()->name();
+                case 'email':
+                    return fake()->unique()->safeEmail();
+                case 'number':
+                    return fake()->randomNumber(2);
+                case 'string':
+                    return fake()->sentence(3);
+                default:
+                    return $matches[0];
+            }
+        }, $payload);
+
+        $payload = json_decode($result);
+
+        return $payload;
+    }
 
     public function show(Request $request, $user_id, $slug): JsonResponse {
 
@@ -41,7 +63,9 @@ class ApiController extends Controller
             }
         }
 
-        $response = response()->json($endpoint->payload, $endpoint->status_code);
+        $data = $this->insertFakerData($endpoint->payload);
+
+        $response = response()->json($data, $endpoint->status_code);
         if ($endpoint->headers && is_array($endpoint->headers)) {
             foreach ($endpoint->headers as $key => $value) {
                 $response->header($key, $value);
