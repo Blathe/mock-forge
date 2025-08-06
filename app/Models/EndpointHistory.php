@@ -18,13 +18,26 @@ class EndpointHistory extends Model
         'response_time_ms',
     ];
 
-    protected function responseTimeMs(): Attribute {
+    protected function responseTimeMs(): Attribute
+    {
         return Attribute::make(
             set: fn($value) => (int) round($value),
         );
     }
 
-    public function endpoint(): BelongsTo {
+    public function getStatusCodeColor(): string
+    {
+        return match ($this->status_code) {
+            200 => 'green',
+            401 => 'orange',
+            404 => 'orange',
+            500 => 'red',
+            default => 'gray',
+        };
+    }
+
+    public function endpoint(): BelongsTo
+    {
         return $this->belongsTo(Endpoint::class);
     }
 }
