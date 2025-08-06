@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\CreateEndpointHistory;
-use App\Models\Endpoint;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
+use Faker\Factory;
+use App\Models\User;
+use App\Models\Endpoint;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Jobs\CreateEndpointHistory;
 
 class ApiController extends Controller
 {
@@ -15,17 +16,19 @@ class ApiController extends Controller
     public function insertFakerData($payload) {
         $payload = json_encode($payload);
 
-        $result = preg_replace_callback('/{{(.*?)}}/', function ($matches) {
+        $faker = Factory::create();
+
+        $result = preg_replace_callback('/{{(.*?)}}/', function ($matches) use ($faker) {
             $placeholder = $matches[1];
             switch ($placeholder) {
                 case 'name':
-                    return fake()->name();
+                    return $faker->name();
                 case 'email':
-                    return fake()->unique()->safeEmail();
+                    return $faker->unique()->safeEmail();
                 case 'number':
-                    return fake()->randomNumber(2);
+                    return $faker->randomNumber(2);
                 case 'string':
-                    return fake()->sentence(3);
+                    return $faker->sentence(3);
                 default:
                     return $matches[0];
             }
