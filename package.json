@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
+        "start_queue": "php artisan queue:work",
         "dev": "vite"
     },
     "dependencies": {
