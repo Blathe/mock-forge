@@ -4,6 +4,7 @@ use App\Http\Controllers\ApiController;
 use Livewire\Volt\Volt;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EndpointController;
+use App\Livewire\ShowEndpointPage;
 
 Route::get('/', function () {
     return view('welcome');

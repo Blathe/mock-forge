@@ -12,6 +12,7 @@
                 {{ $endpoint->description }}
                 <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}
                 </flux:badge>
+                <flux:icon.lock-closed variant="solid" color="orange" />
             </span>
             <flux:text>{{ $endpoint->getUrlSuffix() }}</flux:text>
         </flux:heading>
@@ -23,20 +24,18 @@
     </div>
 
     <div class="grid md:grid-rows-* gap-4">
+        <!----------- Endpoint Info Card ------------>
         <x-card class="mb-4 md:col-span-1">
-            <div class="flex flex-row justify-between items-center">
-                <flux:heading size="lg" class="mb-6">
+            <div class="w-full">
+                <flux:heading size="lg" class="mb-6 flex flex-row justify-between items-center" >
                     {{ __('Endpoint Information') }}
+
+                    <!-- Endpoint History Trigger -->
+                    <flux:modal.trigger name="view-history-modal">
+                        <flux:button icon="clock" class="hover:cursor-pointer">History</flux:button>
+                    </flux:modal.trigger>
+
                 </flux:heading>
-
-                <!-- Endpoint History Modal -->
-                <flux:modal.trigger name="view-history-modal">
-                    <flux:button icon="clock">History</flux:button>
-                </flux:modal.trigger>
-                <flux:modal name="view-history-modal" class="md:w-full">
-                    <livewire:endpoint-history-modal :endpoint="$endpoint" />
-                </flux:modal>
-
             </div>
             <flux:text class="font-semibold">URL</flux:text>
             <div class="flex flex-row gap-2 mb-2" x-data="{ copied: false, tooltip: 'Copy URL' }">
@@ -59,28 +58,40 @@
 
             <flux:text class="font-semibold">Request Count</flux:text>
             <flux:text class="font-semibold">{{ $endpoint->request_count }}</flux:text>
+
+            @if ($endpoint->require_auth)
+                <flux:text class="font-semibold">Authorization Token</flux:text>
+                <flux:text class="font-semibold">{{ $endpoint->auth_token }}</flux:text>
+            @endif
         </x-card>
 
-        <x-card class="mb-4 md:col-span-1">
+        <!----------- Header Info Card ------------>
+        <x-card class="mb-4 md:col-span-1 flex justify-start">
             <flux:heading size="lg">
                 {{ __('Headers') }}
             </flux:heading>
 
-            <div>
-                <div class="flex flex-row justify-between">
-                    <flux:text class="font-semibold">Content-Type</flux:text>
-                    <flux:text>application/json</flux:text>
-                </div>
+            <div class="flex flex-row justify-between">
+                <flux:text class="font-semibold">Content-Type</flux:text>
+                <flux:text>application/json</flux:text>
+            </div>
+            @if ($endpoint->require_auth)
                 <flux:separator />
                 <div class="flex flex-row justify-between">
                     <flux:text class="font-semibold">Authorization</flux:text>
-                    <flux:text>{{ $endpoint->require_auth ? "Bearer" : "N/A" }}</flux:text>
+                    <flux:text>Bearer</flux:text>
                 </div>
-            </div>
+            @endif
         </x-card>
 
+        <!----------- JSON Editor Card ------------>
         <x-card class="justify-start md:col-span-2">
             <livewire:json-editor :endpoint="$endpoint" />
         </x-card>
     </div>
+
+    <!-- Endpoint History Modal -->
+    <flux:modal name="view-history-modal" class="md:w-full">
+        <livewire:endpoint-history-modal :endpoint="$endpoint" />
+    </flux:modal>
 </x-layouts.app>

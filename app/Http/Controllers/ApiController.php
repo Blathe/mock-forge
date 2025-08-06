@@ -14,11 +14,11 @@ class ApiController extends Controller
 {
     //
 
-    public function show(Request $request, $user, $slug): JsonResponse {
+    public function show(Request $request, $user_id, $slug): JsonResponse {
 
         //TODO: A lot of stuff in this controller should be done through Queues.
         $start_time = Carbon::now();
-        $user = User::where('id', $user)->firstOrFail();
+        $user = User::where('id', $user_id)->firstOrFail();
 
         $endpoint = Endpoint::where('user_id', $user->id)
             ->where('slug', $slug)
