@@ -13,7 +13,7 @@
             <flux:description>The endpoint slug.</flux:description>
             <flux:input.group>
                 <flux:input.group.prefix>/api/user_id/</flux:input.group.prefix>
-                <flux:input x-model="slug" @input="slug = $event.target.value.replace(' ', '-')" wire:model.live.debounce.250ms="form.slug" placeholder="products" />
+                <flux:input x-model="slug" @input="slug = $event.target.value.replace(' ', '-')" wire:model="form.slug" placeholder="products" />
             </flux:input.group>
             <flux:text size="sm" class="text-gray-500">
                 The full endpoint URL will be <code>/api/user_id/{{ $form->slug }}</code>
