@@ -2,17 +2,17 @@
 
 namespace App\Livewire\Forms;
 
-use App\Jobs\CreateEndpoint;
 use Livewire\Form;
 use App\Models\Endpoint;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class EndpointForm extends Form
 {
     public ?Endpoint $endpoint;
 
-    #[Validate('required|string|max:255')]
+    #[Validate]
     public string $slug = '';
 
     #[Validate('required|string|max:128')]
@@ -38,6 +38,17 @@ class EndpointForm extends Form
 
     #[Validate('nullable|json')]
     public ?string $payload = null;
+
+    public function rules() {
+        return [
+            'slug' => [
+                'required',
+                'string',
+                'max:64',
+                Rule::unique('endpoints')->where(fn ($query) => $query->where('user_id', Auth::id())),
+            ],
+        ];
+    }
 
     public function submit() {
         $this->validate();
