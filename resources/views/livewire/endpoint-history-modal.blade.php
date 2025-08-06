@@ -16,7 +16,7 @@
                     {{ (int) $history->response_time_ms }}ms
                 </span>
             </div>
-            <flux:badge color="green">{{ $endpoint->status_code }}</flux:badge>
+            <flux:badge color="green">{{ $history->status_code }}</flux:badge>
         </x-card>
     @endforeach
 </div>
