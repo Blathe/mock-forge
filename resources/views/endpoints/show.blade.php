@@ -12,7 +12,9 @@
                 {{ $endpoint->description }}
                 <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}
                 </flux:badge>
-                <flux:icon.lock-closed variant="solid" color="orange" />
+                @if ($endpoint->require_auth)
+                    <flux:icon.lock-closed variant="solid" color="orange" />
+                @endif
             </span>
             <flux:text>{{ $endpoint->getUrlSuffix() }}</flux:text>
         </flux:heading>
