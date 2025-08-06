@@ -10,7 +10,10 @@ class EndpointController extends Controller
 {
     public function index(Request $request)
     {
-        $endpoints = $request->user()->endpoints()->get();
+        $endpoints = Endpoint::where('user_id', Auth::id())
+            ->orderBy('created_at')
+            ->with('histories')->orderBy('created_at', 'desc')
+            ->get();
         return view('endpoints.index', compact('endpoints'));
     }
 

@@ -42,7 +42,7 @@
             @endif
             <div class="flex flex-col items-end mr-8">
                 <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
-                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: 2m ago</p>
+                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: {{ $endpoint->histories->last() ? $endpoint->histories->last()->created_at->diffForHumans() : "No requests" }}</p>
             </div>
             <flux:dropdown>
                 <flux:button icon:trailing="ellipsis-horizontal"></flux:button>

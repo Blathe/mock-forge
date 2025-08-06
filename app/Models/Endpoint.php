@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -71,5 +72,15 @@ class Endpoint extends Model
 
     public function histories(): HasMany {
         return $this->hasMany(EndpointHistory::class);
+    }
+
+    public function timeSinceLastRequest(): string {
+        $newest_history = EndpointHistory::where('endpoint_id', $this->id)->orderBy('created_at', 'desc')->first();
+
+        if (!$newest_history) {
+            return "No requests yet";
+        }
+
+        return $newest_history->created_at->diffForHumans();
     }
 }
