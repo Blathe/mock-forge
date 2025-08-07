@@ -9,15 +9,16 @@ use App\Models\Endpoint;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Jobs\CreateEndpointHistory;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApiController extends Controller
 {
 
-    public function insertFakerData($payload) {
+    public function modifyWithFakerData($payload) {
         $payload = json_encode($payload);
 
         $faker = Factory::create();
-
+        
         $result = preg_replace_callback('/{{(.*?)}}/', function ($matches) use ($faker) {
             $placeholder = $matches[1];
             switch ($placeholder) {
@@ -34,9 +35,7 @@ class ApiController extends Controller
             }
         }, $payload);
 
-        $payload = json_decode($result);
-
-        return $payload;
+        return json_decode($result);
     }
 
     public function show(Request $request, $user_id, $slug): JsonResponse {
@@ -49,7 +48,7 @@ class ApiController extends Controller
             ->where('slug', $slug)
             ->firstOrFail();
 
-        if (!$endpoint->is_public) {
+        if (!$endpoint || !$endpoint->is_public) {
             return response()->json(['message' => 'Endpoint not found.'], 404);
         }
 
@@ -66,9 +65,8 @@ class ApiController extends Controller
             }
         }
 
-        $data = $this->insertFakerData($endpoint->payload);
-
-        $response = response()->json($data, $endpoint->status_code);
+        $modified_payload = $this->modifyWithFakerData($endpoint->payload);
+        $response = response()->json($modified_payload, $endpoint->status_code);
 
         $response_time = $start_time->diffInMilliseconds(Carbon::now());
         CreateEndpointHistory::dispatch($endpoint->id, $response->status(), $response_time);
