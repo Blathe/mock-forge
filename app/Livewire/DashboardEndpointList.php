@@ -31,6 +31,20 @@ class DashboardEndpointList extends Component
         return redirect()->route('endpoints.index');
     }
 
+    public function toggleEndpointVisibility($id) {
+        $endpoint = Endpoint::findOrFail($id);
+        if ($endpoint->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $endpoint->is_public = !$endpoint->is_public;
+        $endpoint->save();
+
+        session()->flash('message', __('Endpoint visibility updated successfully.'));
+
+        return redirect()->route('endpoints.index');
+    }
+
     public function search() {
         $this->endpoints = Endpoint::where('user_id', Auth::id())
             ->when($this->search_string, function ($query) {

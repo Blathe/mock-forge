@@ -41,13 +41,20 @@
             </div>
             @endif
             <div class="flex flex-col items-end mr-8">
-                <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibility() }}</flux:badge>
-                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: {{ $endpoint->histories->last() ? $endpoint->histories->last()->created_at->diffForHumans() : "No requests" }}</p>
+                <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibilityLabel() }}</flux:badge>
+                @if ($endpoint->histories->last())
+                    <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: {{ $endpoint->histories->last()->created_at->diffForHumans() }}</p>
+                @endif
             </div>
             <flux:dropdown>
                 <flux:button icon:trailing="ellipsis-horizontal"></flux:button>
                 <flux:menu>
-                    <flux:menu.item icon="eye" href="/endpoints/{{ $endpoint->id }}">Details</flux:menu.item>
+                    <flux:menu.item icon="adjustments-horizontal" href="/endpoints/{{ $endpoint->id }}">Details</flux:menu.item>
+                    @if ($endpoint->getVisibilityLabel() == "Listening")
+                        <flux:menu.item wire:click="toggleEndpointVisibility({{$endpoint->id}})" icon="eye-slash" color="red">Deactivate</flux:menu.item>
+                    @else
+                        <flux:menu.item wire:click="toggleEndpointVisibility({{$endpoint->id}})" icon="eye" color="green">Activate</flux:menu.item>
+                    @endif
                     <flux:menu.separator />
                     <flux:modal.trigger name="delete-endpoint-{{ $endpoint->id }}">
                         <flux:menu.item variant="danger" icon="trash">Delete</flux:menu.item>

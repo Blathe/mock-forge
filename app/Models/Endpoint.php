@@ -35,14 +35,14 @@ class Endpoint extends Model
         'payload' => 'json',
     ];
 
-    public function getVisibility(): string
+    public function getVisibilityLabel(): string
     {
-        return $this->is_public ? 'Active' : 'Disabled';
+        return $this->is_public ? "Listening" : "Not Listening";
     }
 
     public function getVisibilityColor(): string
     {
-        return $this->is_public ? 'green' : 'red';
+        return $this->is_public ? "green" : "red";
     }
 
     public function getUrlSuffix(): string

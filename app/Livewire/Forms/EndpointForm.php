@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 
 class EndpointForm extends Form
 {
-    public ?Endpoint $endpoint;
+    //public ?Endpoint $endpoint;
 
     #[Validate]
     public string $slug = '';
@@ -62,16 +62,5 @@ class EndpointForm extends Form
 
         $this->reset();
         return redirect()->route('endpoints.index');
-    }
-
-    public function update() {
-        $this->validate();
-
-        if ($this->endpoint) {
-            $this->endpoint->update($this->all());
-            session()->flash('message', __('Endpoint updated successfully.'));
-        } else {
-            session()->flash('error', __('Endpoint not found.'));
-        }
     }
 }
