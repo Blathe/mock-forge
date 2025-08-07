@@ -15,7 +15,6 @@ class EndpointHistoryModal extends Component
 
     public function mount() {
         $this->histories = EndpointHistory::where('endpoint_id', '=', $this->endpoint->id)
-        ->with('endpoint')
         ->limit($this->modal_history_count)
         ->orderBy('created_at', 'desc')
         ->get();
