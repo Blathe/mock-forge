@@ -37,7 +37,7 @@ class DashboardEndpointList extends Component
                 $query->where('slug', 'like', '%' . $this->search_string . '%')
                       ->orWhere('description', 'like', '%' . $this->search_string . '%');
             })
-            ->with('histories')->orderBy('created_at')->created_at
+            ->with('histories')
             ->get();
     }
 }

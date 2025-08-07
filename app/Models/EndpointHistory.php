@@ -29,8 +29,7 @@ class EndpointHistory extends Model
     {
         return match ($this->status_code) {
             200 => 'green',
-            401 => 'orange',
-            404 => 'orange',
+            401, 404 => 'orange',
             500 => 'red',
             default => 'gray',
         };

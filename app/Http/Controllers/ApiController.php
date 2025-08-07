@@ -69,11 +69,6 @@ class ApiController extends Controller
         $data = $this->insertFakerData($endpoint->payload);
 
         $response = response()->json($data, $endpoint->status_code);
-        if ($endpoint->headers && is_array($endpoint->headers)) {
-            foreach ($endpoint->headers as $key => $value) {
-                $response->header($key, $value);
-            }
-        }
 
         $response_time = $start_time->diffInMilliseconds(Carbon::now());
         CreateEndpointHistory::dispatch($endpoint->id, $response->status(), $response_time);
