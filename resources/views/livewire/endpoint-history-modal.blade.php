@@ -1,7 +1,7 @@
 <div>
     <flux:heading class="mb-6" size="xl">
         {{ __('Endpoint History') }}
-        <flux:text>Displaying up to the last 20 requests made to this endpoint.</flux:text>
+        <flux:text>Displaying up to the last {{$modal_history_count}} requests made to this endpoint.</flux:text>
     </flux:heading>
     @foreach ($histories as $history)
         <x-card class="flex flex-row items-center justify-between gap-4 mb-4">
