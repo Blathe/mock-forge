@@ -8,6 +8,7 @@ import { foldGutter, codeFolding } from '@codemirror/language';
 import { ayuLight, espresso } from 'thememirror';
 
 export default function initCodeMirror() {
+    console.log('Initializing codemirror editor.');
     const hidden = document.getElementById('json-editor-hidden');
     const container = document.getElementById('editor-container');
 
@@ -21,26 +22,26 @@ export default function initCodeMirror() {
     }
 
     //TODO: Clean this up and add theme stuff to it's own file.
-    let theme = espresso;
     const lightTheme = espresso;
     const darkTheme = oneDark;
 
-    const currentTheme = localStorage.getItem('flux.appearance');
+    let theme = espresso;
 
-    if (!currentTheme) {
+    //If no current theme, user is using System Defaults, flux.appearance is only set when explicitly choosing dark or light mode.
+    const currentTheme = localStorage.getItem('flux.appearance');
+    if(!currentTheme) {
         const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
         if (prefersDarkScheme.matches) {
             theme = darkTheme;
         } else {
             theme = lightTheme;
         }
-
-    }
-
-    if (currentTheme == 'dark') {
-        theme = darkTheme;
     } else {
-        theme = lightTheme;
+        if (currentTheme === 'dark') {
+            theme = darkTheme;
+        } else {
+            theme = lightTheme;
+        }
     }
 
     const initialContent = typeof parsed === 'object'
