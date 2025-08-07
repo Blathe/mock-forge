@@ -19,7 +19,7 @@
     @fluxAppearance
 </head>
 
-<body class="bg-gray-100 dark:bg-zinc-800">
+<body class="bg-gray-100 dark:bg-zinc-900">
     <div class="flex w-full">
         <flux:header container
             class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 mb-12 flex-1 order-1">
