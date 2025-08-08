@@ -45,7 +45,7 @@ class EndpointForm extends Form
                 'required',
                 'string',
                 'max:64',
-                Rule::unique('endpoints')->where(fn ($query) => $query->where('user_id', Auth::id())),
+                Rule::unique('endpoints')->where(fn ($query) => $query->where('user_id', Auth::id()))->whereNull('deleted_at'), //slugs must be unique per user, ignoring soft deleted entries.
             ],
         ];
     }
