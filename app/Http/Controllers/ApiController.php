@@ -18,7 +18,7 @@ class ApiController extends Controller
         $payload = json_encode($payload);
 
         $faker = Factory::create();
-        
+
         $result = preg_replace_callback('/{{(.*?)}}/', function ($matches) use ($faker) {
             $placeholder = $matches[1];
             switch ($placeholder) {
@@ -60,7 +60,8 @@ class ApiController extends Controller
             $provided = $request->bearerToken();
             if(!$provided || $provided !== $endpoint->auth_token) {
                 $response_time = $start_time->diffInMilliseconds(Carbon::now());
-                CreateEndpointHistory::dispatch($endpoint->id, 401, $response_time); //create an unauthorized attempt in history.
+                CreateEndpointHistory::dispatch(
+                    $endpoint->id, 401, $response_time, 0); //create an unauthorized attempt in history.
                 return response()->json(['message' => 'Unauthorized'], 401);
             }
         }
@@ -69,7 +70,13 @@ class ApiController extends Controller
         $response = response()->json($modified_payload, $endpoint->status_code);
 
         $response_time = $start_time->diffInMilliseconds(Carbon::now());
-        CreateEndpointHistory::dispatch($endpoint->id, $response->status(), $response_time);
+
+        CreateEndpointHistory::dispatch(
+            $endpoint->id,
+            $response->status(),
+            $response_time,
+            strlen($response->content())
+        );
 
         $endpoint->request_count += 1;
         $endpoint->save();

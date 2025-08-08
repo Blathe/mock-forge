@@ -25,16 +25,16 @@
         </flux:button>
     </div>
 
-    <div class="grid md:grid-rows-* md:grid-cols-3 gap-4">
+    <div class="grid md:grid-rows-* md:grid-cols-3 gap-3">
         <!----------- Endpoint Info Card ------------>
-        <x-card class="mb-4 md:col-span-2">
+        <x-card class="md:col-span-2">
             <div class="w-full">
                 <flux:heading size="lg" class="mb-6 flex flex-row justify-between items-center">
                     {{ __('Endpoint Information') }}
 
                     <!-- Endpoint History Trigger -->
                     <flux:modal.trigger name="view-history-modal">
-                        <flux:button icon="clock" class="hover:cursor-pointer">History</flux:button>
+                        <flux:button icon="clock">History</flux:button>
                     </flux:modal.trigger>
 
                 </flux:heading>
@@ -42,17 +42,24 @@
             <flux:text class="font-semibold">URL</flux:text>
             <div class="flex flex-row gap-2 mb-2" x-data="{ copied: false, tooltip: 'Copy URL' }">
                 <flux:text x-ref="fullUrl"
-                    class="flex-1 font-semibold text-gray-800 dark:text-gray-300 bg-gray-100 dark:bg-zinc-700 p-2 rounded transition-all">
+                    class="flex-1 font-semibold text-gray-800 dark:text-gray-300 bg-gray-100 dark:bg-zinc-700 p-2 rounded-lg transition-all">
                     {{ route('api.user.show', ['user_id' => $endpoint->user_id, 'slug' => $endpoint->slug]) }}
                 </flux:text>
                 <flux:tooltip x-bind:content="tooltip" position="top" class="transition-all">
-                    <flux:button size="base" class="hover:cursor-pointer" x-bind:disabled="copied ? true : false"
+                    <flux:button size="base" x-bind:disabled="copied ? true : false"
                         @click="navigator.clipboard.writeText($refs.fullUrl.innerText); copied = true;"
                         x-text="copied ? 'Copied!' : 'Copy'">
                         Copied
                     </flux:button>
                 </flux:tooltip>
             </div>
+
+            <flux:text class="font-semibold">Visibility</flux:text>
+            @if ($endpoint->is_public)
+                <flux:badge class="self-start" color="green">Listening</flux:badge>
+            @else
+                <flux:badge class="self-start" color="red">Not Listening</flux:badge>
+            @endif
 
             <flux:text class="font-semibold">Method</flux:text>
             <flux:badge class="self-start" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}
@@ -68,7 +75,7 @@
         </x-card>
 
         <!----------- Header Info Card ------------>
-        <x-card class="mb-4 md:col-span-1 flex justify-start">
+        <x-card class="md:col-span-1 flex justify-start">
             <flux:heading size="lg">
                 {{ __('Headers') }}
             </flux:heading>
@@ -88,7 +95,7 @@
 
         <!----------- JSON Editor Card ------------>
         <x-card class="justify-start md:col-span-3">
-            <livewire:json-editor :endpoint="$endpoint" />
+            <livewire:json-editor :endpoint="$endpoint"/>
         </x-card>
     </div>
 

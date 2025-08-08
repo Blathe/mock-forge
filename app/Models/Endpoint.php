@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Database\Factories\EndpointFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Endpoint extends Model
 {
     /** @use HasFactory<EndpointFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'slug',

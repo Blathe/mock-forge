@@ -8,7 +8,6 @@ import { foldGutter, codeFolding } from '@codemirror/language';
 import { ayuLight, espresso } from 'thememirror';
 
 export default function initCodeMirror() {
-    console.log('Initializing codemirror editor.');
     const hidden = document.getElementById('json-editor-hidden');
     const container = document.getElementById('editor-container');
 

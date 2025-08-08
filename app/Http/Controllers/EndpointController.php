@@ -33,8 +33,13 @@ class EndpointController extends Controller
         return view('endpoints.show', compact('endpoint'));
     }
 
-    public function delete($id) {
+    public function delete($id, Request $request) {
         $endpoint = Endpoint::findOrFail($id);
+
+        if ($request->user()->cannot('delete', $endpoint)) {
+            abort(403);
+        }
+
         $endpoint->delete();
 
         session()->flash('message', __('Endpoint deleted successfully.'));

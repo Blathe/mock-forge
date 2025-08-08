@@ -22,4 +22,10 @@ class EndpointPolicy
         ? Response::allow()
         : Response::deny('You do not own this endpoint.');
     }
+
+    public function delete(User $user, Endpoint $endpoint) {
+        return $user->id === $endpoint->user_id
+            ? Response::allow()
+            : Response::deny('You do not own this endpoint.');
+    }
 }

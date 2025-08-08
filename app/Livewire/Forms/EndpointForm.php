@@ -10,7 +10,6 @@ use Illuminate\Validation\Rule;
 
 class EndpointForm extends Form
 {
-    //public ?Endpoint $endpoint;
 
     #[Validate]
     public string $slug = '';
@@ -37,7 +36,7 @@ class EndpointForm extends Form
     public bool $is_public = false;
 
     #[Validate('nullable|json')]
-    public ?string $payload = null;
+    public ?string $payload = '{ "hello": "world" }';
 
     public function rules() {
         return [
@@ -45,12 +44,15 @@ class EndpointForm extends Form
                 'required',
                 'string',
                 'max:64',
-                Rule::unique('endpoints')->where(fn ($query) => $query->where('user_id', Auth::id())),
+                Rule::unique('endpoints')->where(fn ($query) => $query->where('user_id', Auth::id()))->whereNull('deleted_at'), //slugs must be unique per user, ignoring soft deleted entries.
             ],
         ];
     }
 
     public function submit() {
+        $decoded_payload = json_decode($this->payload);
+        $this->payload = json_encode($decoded_payload, JSON_PRETTY_PRINT);
+
         $this->validate();
 
         $endpoint = $this->all();

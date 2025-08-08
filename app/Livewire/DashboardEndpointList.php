@@ -26,7 +26,7 @@ class DashboardEndpointList extends Component
         }
         $endpoint->delete();
 
-        session()->flash('message', __('Endpoint deleted successfully.'));
+        session()->flash('success', __('Endpoint deleted successfully.'));
 
         return redirect()->route('endpoints.index');
     }
