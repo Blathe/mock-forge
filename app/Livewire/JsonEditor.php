@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Endpoint;
+use JsonException;
 use Livewire\Component;
 
 class JsonEditor extends Component
@@ -20,7 +21,7 @@ class JsonEditor extends Component
     public function save() {
         try {
             $parsed = json_decode($this->payload, true, 512, JSON_THROW_ON_ERROR);
-        } catch (\JsonException $exception) {
+        } catch (JsonException $exception) {
             $this->addError('json', 'Invalid JSON: ' . $exception->getMessage());
             return;
         }
