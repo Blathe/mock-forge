@@ -16,6 +16,7 @@ class EndpointHistory extends Model
         'endpoint_id',
         'status_code',
         'response_time_ms',
+        'payload_size',
     ];
 
     protected function responseTimeMs(): Attribute

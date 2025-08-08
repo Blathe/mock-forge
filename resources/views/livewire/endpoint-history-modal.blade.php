@@ -10,6 +10,7 @@
                     {{ $history->created_at }}
                 </flux:heading>
             </div>
+            <flux:text>Payload: {{ $history->payload_size }} bytes</flux:text>
             <div class="flex flex-col items-end mr-8">
                 <span class="flex flex-row gap-2 font-semibold items-center">
                     <flux:icon class="size-5" color="gray" name="clock" />
