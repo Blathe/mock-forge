@@ -1,11 +1,12 @@
 import { EditorView, keymap, lineNumbers } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { defaultKeymap } from '@codemirror/commands';
-import { json } from '@codemirror/lang-json';
+import {json, jsonLanguage} from '@codemirror/lang-json';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { indentWithTab } from "@codemirror/commands"
-import { foldGutter, codeFolding } from '@codemirror/language';
+import {foldGutter, codeFolding, foldKeymap} from '@codemirror/language';
 import { ayuLight, espresso } from 'thememirror';
+import {autocompletion, closeBrackets} from "@codemirror/autocomplete";
 
 export default function initCodeMirror() {
     const hidden = document.getElementById('json-editor-hidden');
@@ -50,12 +51,13 @@ export default function initCodeMirror() {
     const state = EditorState.create({
         doc: initialContent,
         extensions: [
-            keymap.of([defaultKeymap, indentWithTab]),
-            json(),
+            keymap.of([...defaultKeymap, indentWithTab]),
             theme,
+            json(),
             lineNumbers(),
             foldGutter(),
             codeFolding(),
+            closeBrackets(),
             EditorView.lineWrapping,
             EditorState.tabSize.of(2),
             EditorView.updateListener.of(update => {
