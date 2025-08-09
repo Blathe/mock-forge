@@ -5,7 +5,7 @@
     </flux:heading>
 
     <!-- Hidden text area for codemirror -->
-    <textarea wire:model.defer="payload" id="json-editor-hidden" hidden></textarea>
+    <textarea wire:model.defer="payload" id="json-editor-hidden" hidden>{{ $payload }}</textarea>
 
     <!-- The codemirror editor -->
     <div wire:ignore>
