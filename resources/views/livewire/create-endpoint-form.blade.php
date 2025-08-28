@@ -22,7 +22,7 @@
 
         </flux:field>
 
-        <flux:field class="mb-4">
+        <!--<flux:field class="mb-4">
             <flux:label>Method</flux:label>
             <flux:description>What method should this endpoint accept?</flux:description>
             <flux:select wire:model="form.method" placeholder="Choose method">
@@ -32,7 +32,7 @@
                 <flux:select.option>DELETE</flux:select.option>
             </flux:select>
             <flux:error name="form.method" />
-        </flux:field>
+        </flux:field>-->
 
         <flux:field class="mb-4">
             <flux:label>Delay (ms)</flux:label>

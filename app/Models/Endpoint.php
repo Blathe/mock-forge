@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Endpoint extends Model
 {
@@ -53,7 +54,7 @@ class Endpoint extends Model
     public function getFullUrl(): string
     {
         $domain = env('APP_URL');
-        return url($domain . $this->getUrlSuffix());
+        return url($domain .  $this->getUrlSuffix());
     }
 
     public function getMethodColor(): string
@@ -75,6 +76,9 @@ class Endpoint extends Model
         return $this->hasMany(EndpointHistory::class);
     }
 
+    /**
+     * Returns a human readable time since the last request was made to this endpoint.
+     * */
     public function timeSinceLastRequest(): string {
         $newest_history = EndpointHistory::where('endpoint_id', $this->id)->orderBy('created_at', 'desc')->first();
 
@@ -83,5 +87,14 @@ class Endpoint extends Model
         }
 
         return $newest_history->created_at->diffForHumans();
+    }
+
+    /**
+     * The endpoint is expired if it is over 7 days old.
+     */
+    public function isExpired(): bool {
+        $now = Carbon::now();
+        $difference = $this->created_at->diffInDays($now);
+        return $difference > 7;
     }
 }
