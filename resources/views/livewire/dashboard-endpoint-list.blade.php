@@ -8,10 +8,11 @@
                 <flux:select.option>Active</flux:select.option>
                 <flux:select.option>Disabled</flux:select.option>
             </flux:select>
+            <!-- Create Endpoint Modal -->
             <flux:modal.trigger name="create-endpoint">
                 <flux:button color="green" variant="primary" icon="plus">Create Endpoint</flux:button>
             </flux:modal.trigger>
-            <flux:modal name="create-endpoint" class="md:w-full w-full">
+            <flux:modal name="create-endpoint" class="w-screen">
                 <livewire:create-endpoint-form />
             </flux:modal>
         </div>
@@ -63,7 +64,7 @@
             </flux:dropdown>
         </x-card>
 
-        <flux:modal name="delete-endpoint-{{ $endpoint->id }}" class="min-w-[22rem]">
+        <flux:modal name="delete-endpoint-{{ $endpoint->id }}" class="w-96">
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">Delete endpoint?</flux:heading>

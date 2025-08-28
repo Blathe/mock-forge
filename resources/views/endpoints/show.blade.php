@@ -18,11 +18,20 @@
             </span>
             <flux:text>{{ $endpoint->getUrlSuffix() }}</flux:text>
         </flux:heading>
-        <flux:button variant="primary" color="blue" class="w-full order-3 md:w-auto "
+        <!--<flux:button variant="primary" color="blue" class="w-full order-3 md:w-auto "
             href="{{ route('api.user.show', ['user_id' => $endpoint->user_id, 'slug' => $endpoint->slug]) }}">
             <x-icon name="play" />
             {{ __('Test Endpoint') }}
-        </flux:button>
+        </flux:button>-->
+
+        <div class="order-3">
+            <flux:modal.trigger name="test-endpoint" >
+                <flux:button variant="primary" color="blue" icon="play">Test Endpoint</flux:button>
+            </flux:modal.trigger>
+            <flux:modal name="test-endpoint" class="md:w-screen">
+                <livewire:test-endpoint-modal :endpoint="$endpoint" />
+            </flux:modal>
+        </div>
     </div>
 
     <div class="grid md:grid-rows-* md:grid-cols-3 gap-3">
