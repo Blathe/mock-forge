@@ -12,6 +12,7 @@ use Livewire\Component;
 class TestEndpointModal extends Component
 {
     public Endpoint $endpoint;
+    public $statusCode = '';
     public $payload = '';
 
     public function mount(Endpoint $endpoint)
@@ -33,10 +34,10 @@ class TestEndpointModal extends Component
         try {
             $response = Http::get($this->endpoint->getFullUrl());
 
+            $this->statusCode = $response->status();
+
             if ($response->successful()){
                 $this->payload = json_encode($response->json(), JSON_PRETTY_PRINT);
-            } else {
-                dd($response);
             }
 
         } catch (Exception $ex) {
