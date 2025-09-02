@@ -128,7 +128,8 @@
         </section>
 
     </main>
-    <footer class="flex w-full border-t mt-24 p-8">
+    <footer class="flex w-full border-t dark:border-zinc-900
+     mt-24 p-8">
         <div class="max-w-[1320px] mx-auto">
             <p>&copy; 2025 - MockForge
         </div>
