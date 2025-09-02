@@ -128,18 +128,6 @@
             </div>
         </section>
 
-        <!-- FAQs
-        <section class="mt-24">
-            <flux:heading size="xl">FAQs</flux:heading>
-            <hr class="mb-6" />
-            <div class="flex flex-col gap-2">
-                <livewire:faq-details title="Can I use this in production?"
-                    body="It is not recommended to use MockForge for a production app. Endpoints are deleted after 1 week, and the JSON payload structure can easily be changed causing problems in a production app." />
-                <livewire:faq-details title="Hello World" body="Hello world" />
-                <livewire:faq-details title="Hello World" body="Hello world" />
-            </div>
-        </section>
-        -->
     </main>
     <footer class="flex w-full border-t mt-24 p-8">
         <div class="max-w-[1320px] mx-auto">
