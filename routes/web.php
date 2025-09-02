@@ -10,10 +10,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 Route::group(['middleware' => ['auth', 'verified']], function () {
     //Endpoint endpoints
     Route::get('endpoints', [EndpointController::class, 'index'])

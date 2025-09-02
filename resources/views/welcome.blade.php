@@ -5,7 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>MockForge | Mock APIs in seconds - no backend required.</title>
+
+    <meta name="description"
+        content="MockForge is a tool for rapidly creating mock API endpoints to test front-end applications." />
 
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -19,10 +22,10 @@
     @fluxAppearance
 </head>
 
-<body class="bg-gray-100 dark:bg-zinc-900">
+<body class="">
     <div class="flex w-full">
         <flux:header container
-            class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 mb-12 flex-1 order-1">
+            class="animate-drop-down shadow-md border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 mb-12 flex-1 order-1">
 
             <a href="{{ route('endpoints.index') }}"
                 class="ms-2 me-5 flex items-center space-x-2 rtl:space-x-reverse lg:ms-0" wire:navigate>
@@ -31,89 +34,125 @@
 
             <flux:spacer />
 
-            <flux:navbar class="-mb-px max-lg:hidden">
-                <!--<flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
-                </flux:navbar.item>-->
+
+            <nav class="flex flex-row gap-2">
                 @auth
-                    <flux:navbar.item :href="route('endpoints.index')" :current="request()->routeIs('endpoints.index')"
-                        wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:navbar.item>
+                    <a href="{{ route('endpoints.index') }}"
+                        class="dark:hover:text-white dark:text-gray-200 transition-all">Dashboard</a>
                 @else
-                    <flux:navbar.item :href="route('login')" :current="request()->routeIs('login')" wire:navigate>
-                        {{ __('Login') }}
-                    </flux:navbar.item>
+                    <a href="{{ route('login') }}">Login</a>
                 @endauth
-
-            </flux:navbar>
-
-            <!-- Mobile Menu Toggle -->
-            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+            </nav>
         </flux:header>
-
-        <!-- Mobile Menu -->
-        <flux:sidebar stashable sticky
-            class="lg:hidden border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
-
-            <a href="{{ route('endpoints.index') }}" class="ms-1 flex items-center space-x-2 rtl:space-x-reverse"
-                wire:navigate>
-                <x-app-logo />
-            </a>
-
-            <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Links')">
-                    <flux:navlist.item icon="layout-grid" :href="route('endpoints.index')"
-                        :current="request()->routeIs('endpoints.index')" wire:navigate>
-                        {{ __('Endpoints') }}
-                    </flux:navlist.item>
-                </flux:navlist.group>
-            </flux:navlist>
-
-            <flux:spacer />
-
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit"
-                    target="_blank">
-                    {{ __('Repository') }}
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire"
-                    target="_blank">
-                    {{ __('Documentation') }}
-                </flux:navlist.item>
-            </flux:navlist>
-        </flux:sidebar>
     </div>
 
-    <main class="max-w-[1320px] mx-auto p-4">
+    <main class="max-w-[1200px] mx-auto p-4">
 
         <!-- Hero Section -->
-        <section class="flex flex-col gap-4 mb-24 text-center">
-            <h1 class="text-foreground text-3xl md:text-4xl lg:text-6xl font-semibold leading-tight">
-                Forge Mock APIs Quickly
+        <section class="flex flex-col gap-4 mb-24 text-center animate-fade-in">
+            <h1 class="text-foreground text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight">
+                Mock APIs in seconds. No backend needed.
             </h1>
             <p class="dark:text-gray-200 text-gray-800 lg:text-lg font-medium leading-relaxed max-w-lg mx-auto">
-                MockForge helps developers simulate powerful, customizable APIs in seconds - no backend
-                required.
-            </p>
-            <p class="dark:text-gray-200 text-gray-800 lg:text-lg font-medium leading-relaxed max-w-lg mx-auto">
-                Design, test, and iterate faster with production-grade mock data tailored to
-                your
-                needs.
+                Create realistic mock endpoints with custom JSON for prototyping, testing, and front-end development.
             </p>
 
-            <flux:button href="{{ route('endpoints.index') }}" color="sky" variant="primary" class="self-center">
+            <flux:button href="{{ route('endpoints.index') }}" color="emerald" variant="primary" class="self-center">
                 Start Forging Now</flux:button>
 
+            <!-- Dashboard preview -->
+            <img src="dashboardpreview.webp" alt="Dashboard preview" width={1160} height={700}
+                class="animate-fade-in-up md:w-[80%] h-full object-cover rounded-xl shadow-xl shadow-black/30 mx-auto mt-8" />
         </section>
 
-        <!-- Dashboard preview -->
-        <img src="dashboard-preview.png" alt="Dashboard preview" width={1160} height={700}
-                class="md:w-[80%] h-full object-cover rounded-xl shadow-xl shadow-black/30 mx-auto" />
+        <!-- Key Features Section -->
+        <section class="mt-24 animate-fade-in">
+            <flux:heading size="xl">Key Features</flux:heading>
+            <hr class="mb-6" />
+            <div class="flex flex-col md:flex-row flex-wrap gap-4">
+                <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
+                        <flux:icon name="globe-americas" color="white" />
+                    </div>
+                    <flux:heading size="lg" class="flex flex-row gap-2">Custom Endpoints</flux:heading>
+                    <flux:text size="lg">Quickly create mock URLs with your own JSON structure.
+                    </flux:text>
+                </x-card>
+                <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
+                        <flux:icon name="pencil-square" color="white" />
+                    </div>
+                    <flux:heading size="lg" class="flex flex-row gap-2">Dynamic JSON Editor</flux:heading>
+                    <flux:text size="lg">Built in editor with optional dynamic value generation.
+                    </flux:text>
+                </x-card>
+                <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
+                        <flux:icon name="lock-closed" color="white" />
+                    </div>
+                    <flux:heading size="lg" class="flex flex-row gap-2">Endpoint Auth</flux:heading>
+                    <flux:text size="lg">Add a custom auth token to simulate an authenticated
+                        endpoint.
+                    </flux:text>
+                </x-card>
+                <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
+                        <flux:icon name="clock" color="white" />
+                    </div>
+                    <flux:heading size="lg" class="flex flex-row gap-2">Simulated Delays</flux:heading>
+                    <flux:text size="lg">Simulate slow endpoint responses - great for testing
+                        animations and placeholders.
+                    </flux:text>
+                </x-card>
+                <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
+                        <flux:icon name="calendar" color="white" />
+                    </div>
+                    <flux:heading size="lg" class="flex flex-row gap-2">Endpoint History</flux:heading>
+                    <flux:text size="lg">View the history of your endpoints, including payload
+                        size and response times.
+                    </flux:text>
+                </x-card>
+            </div>
+        </section>
+
+        <!-- Built With -->
+        <section class="mt-24 animate-fade-in">
+            <flux:heading size="xl">Built With</flux:heading>
+            <hr class="mb-6" />
+            <div class="flex flex-row flex-wrap gap-2">
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">Laravel</p>
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">Livewire</p>
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">AlpineJS</p>
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">TailwindCSS</p>
+            </div>
+        </section>
+
+        <!-- FAQs
+        <section class="mt-24">
+            <flux:heading size="xl">FAQs</flux:heading>
+            <hr class="mb-6" />
+            <div class="flex flex-col gap-2">
+                <livewire:faq-details title="Can I use this in production?"
+                    body="It is not recommended to use MockForge for a production app. Endpoints are deleted after 1 week, and the JSON payload structure can easily be changed causing problems in a production app." />
+                <livewire:faq-details title="Hello World" body="Hello world" />
+                <livewire:faq-details title="Hello World" body="Hello world" />
+            </div>
+        </section>
+        -->
     </main>
+    <footer class="flex w-full border-t mt-24 p-8">
+        <div class="max-w-[1320px] mx-auto">
+            <p>&copy; 2025 - MockForge
+        </div>
+    </footer>
     @fluxScripts
 </body>
 
 </html>
+
+<script>
+    const currentYear = new Date().getCurrentYear();
+    const currentYearId = document.GetElementById('currentYear');
+    currentYearId.innerHTML = currentYear;
+</script>

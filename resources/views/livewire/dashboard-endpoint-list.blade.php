@@ -10,7 +10,7 @@
             </flux:select>
             <!-- Create Endpoint Modal -->
             <flux:modal.trigger name="create-endpoint">
-                <flux:button color="green" variant="primary" icon="plus">Create Endpoint</flux:button>
+                <flux:button color="emerald" variant="primary" icon="plus">Create Endpoint</flux:button>
             </flux:modal.trigger>
             <flux:modal name="create-endpoint" class="w-screen">
                 <livewire:create-endpoint-form />

@@ -64,3 +64,47 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.3s ease;
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease;
+}
+
+.animate-drop-down {
+    animation: drop-down 0.3s ease;
+}
+
+
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes drop-down {
+    0% {
+        transform: translateY(-100px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
