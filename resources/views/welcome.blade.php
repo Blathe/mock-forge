@@ -60,7 +60,7 @@
                 Start Forging Now</flux:button>
 
             <!-- Dashboard preview -->
-            <img src="/dashboardpreview.webp" alt="Dashboard preview" width={1160} height={700}
+            <img src="/DashboardPreview.webp" alt="Dashboard preview" width={1160} height={700}
                 class="animate-fade-in-up md:w-[80%] h-full object-cover rounded-xl shadow-xl shadow-black/30 mx-auto mt-8" />
         </section>
 
@@ -128,7 +128,8 @@
         </section>
 
     </main>
-    <footer class="flex w-full border-t mt-24 p-8">
+    <footer class="flex w-full border-t dark:border-zinc-900
+     mt-24 p-8">
         <div class="max-w-[1320px] mx-auto">
             <p>&copy; 2025 - MockForge
         </div>
