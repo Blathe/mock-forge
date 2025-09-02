@@ -60,7 +60,7 @@
                 Start Forging Now</flux:button>
 
             <!-- Dashboard preview -->
-            <img src="/dashboardpreview.webp" alt="Dashboard preview" width={1160} height={700}
+            <img src="/DashboardPreview.webp" alt="Dashboard preview" width={1160} height={700}
                 class="animate-fade-in-up md:w-[80%] h-full object-cover rounded-xl shadow-xl shadow-black/30 mx-auto mt-8" />
         </section>
 
