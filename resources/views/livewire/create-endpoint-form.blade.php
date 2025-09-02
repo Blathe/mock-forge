@@ -81,5 +81,5 @@
     </div>
 
 
-    <flux:button variant="primary" color="green" type="submit">Create Endpoint</flux:button>
+    <flux:button variant="primary" color="emerald" type="submit">Create Endpoint</flux:button>
 </form>
