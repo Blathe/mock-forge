@@ -10,7 +10,6 @@
     <meta name="description"
         content="MockForge is a tool for rapidly creating mock API endpoints to test front-end applications." />
 
-    <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -61,7 +60,7 @@
                 Start Forging Now</flux:button>
 
             <!-- Dashboard preview -->
-            <img src="dashboardpreview.webp" alt="Dashboard preview" width={1160} height={700}
+            <img src="/dashboardpreview.webp" alt="Dashboard preview" width={1160} height={700}
                 class="animate-fade-in-up md:w-[80%] h-full object-cover rounded-xl shadow-xl shadow-black/30 mx-auto mt-8" />
         </section>
 
@@ -138,9 +137,3 @@
 </body>
 
 </html>
-
-<script>
-    const currentYear = new Date().getCurrentYear();
-    const currentYearId = document.GetElementById('currentYear');
-    currentYearId.innerHTML = currentYear;
-</script>
