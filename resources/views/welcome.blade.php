@@ -61,17 +61,17 @@
                 Start Forging Now</flux:button>
 
             <!-- Dashboard preview -->
-            <img src="dashboard-preview.png" alt="Dashboard preview" width={1160} height={700}
+            <img src="dashboardpreview.webp" alt="Dashboard preview" width={1160} height={700}
                 class="animate-fade-in-up md:w-[80%] h-full object-cover rounded-xl shadow-xl shadow-black/30 mx-auto mt-8" />
         </section>
 
         <!-- Key Features Section -->
-        <section class="mt-24">
+        <section class="mt-24 animate-fade-in">
             <flux:heading size="xl">Key Features</flux:heading>
             <hr class="mb-6" />
             <div class="flex flex-col md:flex-row flex-wrap gap-4">
                 <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
-                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 rounded-md self-start">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
                         <flux:icon name="globe-americas" color="white" />
                     </div>
                     <flux:heading size="lg" class="flex flex-row gap-2">Custom Endpoints</flux:heading>
@@ -79,7 +79,7 @@
                     </flux:text>
                 </x-card>
                 <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
-                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 rounded-md self-start">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
                         <flux:icon name="pencil-square" color="white" />
                     </div>
                     <flux:heading size="lg" class="flex flex-row gap-2">Dynamic JSON Editor</flux:heading>
@@ -87,7 +87,7 @@
                     </flux:text>
                 </x-card>
                 <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
-                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 rounded-md self-start">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
                         <flux:icon name="lock-closed" color="white" />
                     </div>
                     <flux:heading size="lg" class="flex flex-row gap-2">Endpoint Auth</flux:heading>
@@ -96,7 +96,7 @@
                     </flux:text>
                 </x-card>
                 <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
-                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 rounded-md self-start">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
                         <flux:icon name="clock" color="white" />
                     </div>
                     <flux:heading size="lg" class="flex flex-row gap-2">Simulated Delays</flux:heading>
@@ -105,7 +105,7 @@
                     </flux:text>
                 </x-card>
                 <x-card class="hover:dark:bg-zinc-700 hover:bg-gray-50 transition-all">
-                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 rounded-md self-start">
+                    <div class="p-2 dark:bg-zinc-600 bg-zinc-900 dark:bg-zinc-900 rounded-md self-start">
                         <flux:icon name="calendar" color="white" />
                     </div>
                     <flux:heading size="lg" class="flex flex-row gap-2">Endpoint History</flux:heading>
@@ -117,14 +117,14 @@
         </section>
 
         <!-- Built With -->
-        <section class="mt-24">
+        <section class="mt-24 animate-fade-in">
             <flux:heading size="xl">Built With</flux:heading>
             <hr class="mb-6" />
             <div class="flex flex-row flex-wrap gap-2">
-                <p class="p-4 border border-zinc-800/25 rounded-md shadow-md w-fit font-semibold">Laravel</p>
-                <p class="p-4 border border-zinc-800/25 rounded-md shadow-md w-fit font-semibold">Livewire</p>
-                <p class="p-4 border border-zinc-800/25 rounded-md shadow-md w-fit font-semibold">AlpineJS</p>
-                <p class="p-4 border border-zinc-800/25 rounded-md shadow-md w-fit font-semibold">TailwindCSS</p>
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">Laravel</p>
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">Livewire</p>
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">AlpineJS</p>
+                <p class="p-4 border border-zinc-800/25 dark:border-gray-100/25 rounded-md shadow-md w-fit font-semibold">TailwindCSS</p>
             </div>
         </section>
 
