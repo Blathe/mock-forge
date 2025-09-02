@@ -6,8 +6,8 @@ use Livewire\Component;
 
 class FAQDetails extends Component
 {
-    public $title;
-    public $body;
+    public $title = '';
+    public $body = '';
 
     public function render()
     {

@@ -11,9 +11,6 @@
             </a>
 
             <flux:navbar class="-mb-px max-lg:hidden">
-                <!--<flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
-                </flux:navbar.item>-->
                 <flux:navbar.item icon="list" :href="route('endpoints.index')" :current="request()->routeIs('endpoints.index')" wire:navigate>
                     {{ __('Endpoints') }}
                 </flux:navbar.item>
