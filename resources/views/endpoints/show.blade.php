@@ -1,115 +1,134 @@
 <x-layouts.app :title="__('Endpoint Details')">
-    <div class="flex flex-col items-start md:flex-row md:justify-between mb-4 gap-y-8">
-        @if (session()->has('success'))
-            <p class="text-green-600">{{ session('success') }}</p>
-        @endif
-        <flux:button class="order-1" href="{{ route('endpoints.index') }}">
-            <x-icon name="arrow-left" />
-            {{ __('Back to Endpoints') }}
-        </flux:button>
-        <flux:heading size="xl" class="order-2">
-            <span class="flex flex-row gap-2 items-center">
-                {{ $endpoint->description }}
-                <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}
-                </flux:badge>
-                @if ($endpoint->require_auth)
-                    <flux:icon.lock-closed variant="solid" color="orange" />
-                @endif
-            </span>
-            <flux:text>{{ $endpoint->getUrlSuffix() }}</flux:text>
-        </flux:heading>
-        <!--<flux:button variant="primary" color="blue" class="w-full order-3 md:w-auto "
-            href="{{ route('api.user.show', ['user_id' => $endpoint->user_id, 'slug' => $endpoint->slug]) }}">
-            <x-icon name="play" />
-            {{ __('Test Endpoint') }}
-        </flux:button>-->
 
-        <div class="order-3">
-            <flux:modal.trigger name="test-endpoint" >
-                <flux:button variant="primary" color="blue" icon="play">Test Endpoint</flux:button>
+    @if (session()->has('success'))
+        <div class="mb-4 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-sm font-medium">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <!-- Page Header -->
+    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+        <div class="flex flex-col gap-1.5">
+            <a href="{{ route('endpoints.index') }}"
+                class="flex items-center gap-1 text-xs font-medium text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors w-fit">
+                <flux:icon name="arrow-left" class="size-3.5" />
+                Back to Endpoints
+            </a>
+            <div class="flex flex-wrap items-center gap-2 mt-1">
+                <h1 class="text-2xl font-bold text-zinc-900 dark:text-white">{{ $endpoint->description }}</h1>
+                <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}</flux:badge>
+                @if ($endpoint->require_auth)
+                    <flux:badge size="sm" color="orange" icon="lock-closed">Auth</flux:badge>
+                @endif
+            </div>
+            <div class="flex items-center gap-1.5">
+                <span class="size-2 rounded-full {{ $endpoint->is_public ? 'bg-emerald-500' : 'bg-zinc-400 dark:bg-zinc-600' }}"></span>
+                <span class="text-xs font-medium {{ $endpoint->is_public ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-400 dark:text-zinc-500' }}">
+                    {{ $endpoint->getVisibilityLabel() }}
+                </span>
+            </div>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+            <flux:modal.trigger name="view-history-modal">
+                <flux:button icon="clock">History</flux:button>
             </flux:modal.trigger>
-            <flux:modal name="test-endpoint" class="md:w-screen">
-                <livewire:test-endpoint-modal :endpoint="$endpoint" />
-            </flux:modal>
+            <flux:modal.trigger name="test-endpoint">
+                <flux:button variant="primary" color="emerald" icon="play">Test Endpoint</flux:button>
+            </flux:modal.trigger>
         </div>
     </div>
 
-    <div class="grid md:grid-rows-* md:grid-cols-3 gap-3">
-        <!----------- Endpoint Info Card ------------>
-        <x-card class="md:col-span-2">
-            <div class="w-full">
-                <flux:heading size="lg" class="mb-6 flex flex-row justify-between items-center">
-                    {{ __('Endpoint Information') }}
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-                    <!-- Endpoint History Trigger -->
-                    <flux:modal.trigger name="view-history-modal">
-                        <flux:button icon="clock">History</flux:button>
-                    </flux:modal.trigger>
-
-                </flux:heading>
+        <!-- JSON Editor — takes up left 2/3 -->
+        <div class="lg:col-span-2">
+            <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+                <livewire:json-editor :endpoint="$endpoint" />
             </div>
-            <flux:text class="font-semibold">URL</flux:text>
-            <div class="flex flex-row gap-2 mb-2" x-data="{ copied: false, tooltip: 'Copy URL' }">
-                <flux:text x-ref="fullUrl"
-                    class="flex-1 font-semibold text-gray-800 dark:text-gray-300 bg-gray-100 dark:bg-zinc-700 p-2 rounded-lg transition-all">
-                    {{ route('api.user.show', ['user_id' => $endpoint->user_id, 'slug' => $endpoint->slug]) }}
-                </flux:text>
-                <flux:tooltip x-bind:content="tooltip" position="top" class="transition-all">
-                    <flux:button size="base" x-bind:disabled="copied ? true : false"
-                        @click="navigator.clipboard.writeText($refs.fullUrl.innerText); copied = true;"
-                        x-text="copied ? 'Copied!' : 'Copy'">
-                        Copied
-                    </flux:button>
-                </flux:tooltip>
-            </div>
+        </div>
 
-            <flux:text class="font-semibold">Visibility</flux:text>
-            @if ($endpoint->is_public)
-                <flux:badge class="self-start" color="green">Listening</flux:badge>
-            @else
-                <flux:badge class="self-start" color="red">Not Listening</flux:badge>
-            @endif
+        <!-- Right Sidebar — 1/3 -->
+        <div class="flex flex-col gap-4">
 
-            <flux:text class="font-semibold">Method</flux:text>
-            <flux:badge class="self-start" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}
-            </flux:badge>
-
-            <flux:text class="font-semibold">Request Count</flux:text>
-            <flux:text class="font-semibold">{{ $endpoint->request_count }}</flux:text>
-
-            @if ($endpoint->require_auth)
-                <flux:text class="font-semibold">Authorization Token</flux:text>
-                <flux:text class="font-semibold">{{ $endpoint->auth_token }}</flux:text>
-            @endif
-        </x-card>
-
-        <!----------- Header Info Card ------------>
-        <x-card class="md:col-span-1 flex justify-start">
-            <flux:heading size="lg">
-                {{ __('Headers') }}
-            </flux:heading>
-
-            <div class="flex flex-row justify-between">
-                <flux:text class="font-semibold">Content-Type</flux:text>
-                <flux:text>application/json</flux:text>
-            </div>
-            @if ($endpoint->require_auth)
-                <flux:separator />
-                <div class="flex flex-row justify-between">
-                    <flux:text class="font-semibold">Authorization</flux:text>
-                    <flux:text>Bearer</flux:text>
+            <!-- Endpoint URL -->
+            <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-700 p-5">
+                <p class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-3">Endpoint URL</p>
+                <div x-data="{ copied: false }" class="flex gap-2 items-start">
+                    <code x-ref="fullUrl"
+                        class="flex-1 text-xs font-mono text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 px-3 py-2.5 rounded-lg break-all leading-relaxed">{{ route('api.user.show', ['user_id' => $endpoint->user_id, 'slug' => $endpoint->slug]) }}</code>
+                    <button
+                        @click="navigator.clipboard.writeText($refs.fullUrl.innerText); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="flex-shrink-0 p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors">
+                        <flux:icon x-show="!copied" name="clipboard" class="size-4 text-zinc-500" />
+                        <flux:icon x-show="copied" name="check" class="size-4 text-emerald-500" />
+                    </button>
                 </div>
-            @endif
-        </x-card>
+            </div>
 
-        <!----------- JSON Editor Card ------------>
-        <x-card class="justify-start md:col-span-3">
-            <livewire:json-editor :endpoint="$endpoint"/>
-        </x-card>
+            <!-- Details -->
+            <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-700 p-5">
+                <p class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-1">Details</p>
+                <div class="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-zinc-500 dark:text-zinc-400">Status</span>
+                        <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor() }}">{{ $endpoint->getVisibilityLabel() }}</flux:badge>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-zinc-500 dark:text-zinc-400">Method</span>
+                        <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}</flux:badge>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-zinc-500 dark:text-zinc-400">Status Code</span>
+                        <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $endpoint->status_code }}</span>
+                    </div>
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-zinc-500 dark:text-zinc-400">Total Requests</span>
+                        <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ number_format($endpoint->request_count) }}</span>
+                    </div>
+                    @if ($endpoint->delay_ms)
+                        <div class="flex items-center justify-between py-3">
+                            <span class="text-sm text-zinc-500 dark:text-zinc-400">Delay</span>
+                            <span class="text-sm font-semibold text-zinc-900 dark:text-white">{{ $endpoint->delay_ms }}ms</span>
+                        </div>
+                    @endif
+                    @if ($endpoint->require_auth)
+                        <div class="flex flex-col gap-1.5 py-3">
+                            <span class="text-sm text-zinc-500 dark:text-zinc-400">Auth Token</span>
+                            <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 px-2.5 py-2 rounded-lg break-all">{{ $endpoint->auth_token }}</code>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Response Headers -->
+            <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-700 p-5">
+                <p class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-1">Response Headers</p>
+                <div class="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
+                    <div class="flex items-center justify-between py-3">
+                        <span class="text-sm text-zinc-500 dark:text-zinc-400">Content-Type</span>
+                        <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300">application/json</code>
+                    </div>
+                    @if ($endpoint->require_auth)
+                        <div class="flex items-center justify-between py-3">
+                            <span class="text-sm text-zinc-500 dark:text-zinc-400">Authorization</span>
+                            <code class="text-xs font-mono text-zinc-700 dark:text-zinc-300">Bearer</code>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Endpoint History Modal -->
+    <!-- Test Endpoint Modal -->
+    <flux:modal name="test-endpoint" class="md:w-screen">
+        <livewire:test-endpoint-modal :endpoint="$endpoint" />
+    </flux:modal>
+
+    <!-- History Modal -->
     <flux:modal name="view-history-modal" class="md:w-full">
         <livewire:endpoint-history-modal :endpoint="$endpoint" />
     </flux:modal>
+
 </x-layouts.app>

@@ -1,23 +1,30 @@
-<div>
-    <flux:heading size="lg" class="mb-4">
-        Payload
-        <flux:text>The payload that will be returned from this endpoint. Max payload size is 25kb.</flux:text>
-    </flux:heading>
+<div class="p-5">
+    <div class="flex items-start justify-between mb-4">
+        <div>
+            <p class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-1">Payload</p>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">The JSON returned by this endpoint. Max size: 25kb.</p>
+        </div>
+    </div>
 
-    <!-- Hidden text area for codemirror -->
+    <!-- Hidden textarea for CodeMirror -->
     <textarea wire:model.defer="payload" id="json-editor-hidden" hidden>{{ $payload }}</textarea>
 
-    <!-- The codemirror editor -->
+    <!-- CodeMirror editor -->
     <div wire:ignore>
-        <div id="editor-container" class="border border-black/30 dark:border-white/30 rounded mb-4 overflow-y-scroll" style="max-height: 700px;" container></div>
+        <div id="editor-container"
+            class="border border-zinc-200 dark:border-zinc-700 rounded-xl mb-4 overflow-y-scroll"
+            style="max-height: 600px;"
+            container>
+        </div>
     </div>
 
-    <div class="flex gap-2 mt-4">
-        <flux:button wire:click="save" variant="primary" color="green">Save</flux:button>
-        <flux:button id="prettify-btn" variant="subtle" color="blue">Validate JSON</flux:button>
+    <div class="flex items-center gap-2">
+        <flux:button wire:click="save" variant="primary" color="emerald">Save Payload</flux:button>
+        <flux:button id="prettify-btn" variant="ghost">Validate JSON</flux:button>
+        @if (session()->has('success'))
+            <span class="text-sm text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-1">
+                <flux:icon name="check-circle" class="size-4" /> Saved
+            </span>
+        @endif
     </div>
-
-    @if (session()->has('success'))
-        <p class="text-green-600">{{ session('success') }}</p>
-    @endif
 </div>
