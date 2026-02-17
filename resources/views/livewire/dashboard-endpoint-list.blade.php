@@ -1,86 +1,126 @@
 <div>
-    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
-        <form wire:input.debounce.750ms="search">
-                <flux:input wire:model="search_string" kbd="⌘K" icon="magnifying-glass" placeholder="Search..." />
+    <!-- Toolbar -->
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-5">
+        <form wire:input.debounce.750ms="search" class="flex-1">
+            <flux:input wire:model="search_string" kbd="⌘K" icon="magnifying-glass" placeholder="Search endpoints..." />
         </form>
-        <div class="flex flex-none gap-2 items-center">
-            <flux:select class="w-48" placeholder="By status">
+        <div class="flex gap-2 items-center flex-none">
+            <flux:select class="w-40" placeholder="By status">
                 <flux:select.option>Active</flux:select.option>
                 <flux:select.option>Disabled</flux:select.option>
             </flux:select>
-            <!-- Create Endpoint Modal -->
             <flux:modal.trigger name="create-endpoint">
-                <flux:button color="emerald" variant="primary" icon="plus">Create Endpoint</flux:button>
+                <flux:button color="emerald" variant="primary" icon="plus">New Endpoint</flux:button>
             </flux:modal.trigger>
             <flux:modal name="create-endpoint" class="w-screen">
                 <livewire:create-endpoint-form />
             </flux:modal>
         </div>
     </div>
+
+    <!-- Empty State -->
     @if ($endpoints->isEmpty())
-        <div class="text-center text-gray-500 dark:text-gray-400 items-center flex flex-col justify-center h-64">
-            <p>No endpoints found. Create one to get started.</p>
+        <div class="flex flex-col items-center justify-center h-64 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-700 text-center px-4">
+            <div class="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-xl mb-4">
+                <flux:icon name="globe-americas" class="text-zinc-400 dark:text-zinc-500" />
+            </div>
+            <p class="font-medium text-zinc-700 dark:text-zinc-300 mb-1">No endpoints yet</p>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4">Create your first mock endpoint to get started.</p>
+            <flux:modal.trigger name="create-endpoint">
+                <flux:button color="emerald" variant="primary" size="sm" icon="plus">Create Endpoint</flux:button>
+            </flux:modal.trigger>
         </div>
     @endif
-    @foreach ($endpoints as $endpoint)
-        <x-card class="flex flex-row items-center justify-between gap-4 mb-4">
-            <flux:icon name="check-circle" color="{{$endpoint->getVisibilityColor()}}" />
-            <div class="flex flex-col gap-2 flex-1">
-                <flux:heading size="lg" class="flex flex-row gap-2 items-center">
-                        {{ $endpoint->description }}
-                        <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }} </flux:badge>
-                        @if ($endpoint->require_auth)
-                            <flux:icon variant="solid" name="lock-closed" color="orange">Public</flux:badge>
-                        @endif
-                </flux:heading>
-                <p class="text-sm dark:text-gray-300 text-gray-800">{{ $endpoint->getUrlSuffix() }}</p>
-            </div>
-            @if($endpoint->delay_ms != 0)
-            <div class="flex flex-col items-end mr-8">
-                <span class="flex flex-row gap-2 font-semibold items-center"><flux:icon class="size-5" color="gray" name="clock" /> {{ $endpoint->delay_ms}}ms</span>
-                <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Delay</p>
-            </div>
-            @endif
-            <div class="flex flex-col items-end mr-8">
-                <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor()}}">{{ $endpoint->getVisibilityLabel() }}</flux:badge>
-                @if ($endpoint->histories->last())
-                    <p class="text-xs dark:text-gray-300 text-gray-800 mt-1">Last request: {{ $endpoint->histories->last()->created_at->diffForHumans() }}</p>
-                @endif
-            </div>
-            <flux:dropdown>
-                <flux:button icon:trailing="ellipsis-horizontal"></flux:button>
-                <flux:menu>
-                    <flux:menu.item icon="adjustments-horizontal" href="/endpoints/{{ $endpoint->id }}">Details</flux:menu.item>
-                    @if ($endpoint->getVisibilityLabel() == "Listening")
-                        <flux:menu.item wire:click="toggleEndpointVisibility({{$endpoint->id}})" icon="eye-slash" color="red">Deactivate</flux:menu.item>
-                    @else
-                        <flux:menu.item wire:click="toggleEndpointVisibility({{$endpoint->id}})" icon="eye" color="green">Activate</flux:menu.item>
-                    @endif
-                    <flux:menu.separator />
-                    <flux:modal.trigger name="delete-endpoint-{{ $endpoint->id }}">
-                        <flux:menu.item variant="danger" icon="trash">Delete</flux:menu.item>
-                    </flux:modal.trigger>
-                </flux:menu>
-            </flux:dropdown>
-        </x-card>
 
-        <flux:modal name="delete-endpoint-{{ $endpoint->id }}" class="w-96">
-            <div class="space-y-6">
-                <div>
-                    <flux:heading size="lg">Delete endpoint?</flux:heading>
-                    <flux:text class="mt-2">
-                        <p>You're about to delete this endpoint.</p>
-                        <p>This action cannot be reversed.</p>
-                    </flux:text>
+    <!-- Endpoint List -->
+    <div class="flex flex-col gap-3">
+        @foreach ($endpoints as $endpoint)
+            <div class="group bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-700 px-5 py-4 flex items-center gap-4 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-150 hover:shadow-sm">
+
+                <!-- Status dot -->
+                <div class="flex-shrink-0">
+                    <span class="block size-2.5 rounded-full {{ $endpoint->is_public ? 'bg-emerald-500' : 'bg-zinc-400 dark:bg-zinc-600' }}"></span>
                 </div>
-                <div class="flex gap-2">
-                    <flux:spacer />
-                    <flux:modal.close>
-                        <flux:button variant="ghost">Cancel</flux:button>
-                    </flux:modal.close>
-                    <flux:button type="submit" variant="danger" wire:click="deleteEndpoint({{ $endpoint->id }})">Delete Endpoint</flux:button>
+
+                <!-- Main info -->
+                <div class="flex flex-col gap-1 flex-1 min-w-0">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="font-semibold text-zinc-900 dark:text-white truncate">
+                            {{ $endpoint->description }}
+                        </span>
+                        <flux:badge size="sm" color="{{ $endpoint->getMethodColor() }}">{{ $endpoint->method }}</flux:badge>
+                        @if ($endpoint->require_auth)
+                            <flux:badge size="sm" color="orange" icon="lock-closed">Auth</flux:badge>
+                        @endif
+                    </div>
+                    <p class="text-xs font-mono text-zinc-400 dark:text-zinc-500 truncate">
+                        {{ $endpoint->getUrlSuffix() }}
+                    </p>
                 </div>
+
+                <!-- Metadata -->
+                <div class="hidden md:flex items-center gap-5 flex-shrink-0">
+                    @if($endpoint->delay_ms)
+                        <div class="flex flex-col items-end">
+                            <span class="flex items-center gap-1 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+                                <flux:icon name="clock" class="size-3.5 text-zinc-400" />
+                                {{ $endpoint->delay_ms }}ms
+                            </span>
+                            <span class="text-xs text-zinc-400 dark:text-zinc-500">Delay</span>
+                        </div>
+                    @endif
+
+                    <div class="flex flex-col items-end">
+                        <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor() }}">
+                            {{ $endpoint->getVisibilityLabel() }}
+                        </flux:badge>
+                        @if ($endpoint->histories->last())
+                            <span class="text-xs text-zinc-400 dark:text-zinc-500 mt-1">
+                                {{ $endpoint->histories->last()->created_at->diffForHumans() }}
+                            </span>
+                        @else
+                            <span class="text-xs text-zinc-400 dark:text-zinc-500 mt-1">No requests yet</span>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <flux:dropdown>
+                    <flux:button variant="ghost" icon:trailing="ellipsis-horizontal" size="sm"></flux:button>
+                    <flux:menu>
+                        <flux:menu.item icon="adjustments-horizontal" href="/endpoints/{{ $endpoint->id }}">Details</flux:menu.item>
+                        @if ($endpoint->getVisibilityLabel() == "Listening")
+                            <flux:menu.item wire:click="toggleEndpointVisibility({{ $endpoint->id }})" icon="eye-slash" color="red">Deactivate</flux:menu.item>
+                        @else
+                            <flux:menu.item wire:click="toggleEndpointVisibility({{ $endpoint->id }})" icon="eye" color="green">Activate</flux:menu.item>
+                        @endif
+                        <flux:menu.separator />
+                        <flux:modal.trigger name="delete-endpoint-{{ $endpoint->id }}">
+                            <flux:menu.item variant="danger" icon="trash">Delete</flux:menu.item>
+                        </flux:modal.trigger>
+                    </flux:menu>
+                </flux:dropdown>
             </div>
-        </flux:modal>
-    @endforeach
+
+            <!-- Delete Confirmation Modal -->
+            <flux:modal name="delete-endpoint-{{ $endpoint->id }}" class="w-96">
+                <div class="space-y-6">
+                    <div>
+                        <flux:heading size="lg">Delete endpoint?</flux:heading>
+                        <flux:text class="mt-2">
+                            <p>You're about to delete <strong>{{ $endpoint->description }}</strong>.</p>
+                            <p>This action cannot be reversed.</p>
+                        </flux:text>
+                    </div>
+                    <div class="flex gap-2">
+                        <flux:spacer />
+                        <flux:modal.close>
+                            <flux:button variant="ghost">Cancel</flux:button>
+                        </flux:modal.close>
+                        <flux:button variant="danger" wire:click="deleteEndpoint({{ $endpoint->id }})">Delete Endpoint</flux:button>
+                    </div>
+                </div>
+            </flux:modal>
+        @endforeach
+    </div>
 </div>
