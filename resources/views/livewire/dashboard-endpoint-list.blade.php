@@ -12,7 +12,7 @@
             <flux:modal.trigger name="create-endpoint">
                 <flux:button color="emerald" variant="primary" icon="plus">New Endpoint</flux:button>
             </flux:modal.trigger>
-            <flux:modal name="create-endpoint" class="w-screen">
+            <flux:modal name="create-endpoint" class="w-full md:max-w-lg">
                 <livewire:create-endpoint-form />
             </flux:modal>
         </div>
