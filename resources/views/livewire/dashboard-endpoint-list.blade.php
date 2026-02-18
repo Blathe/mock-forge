@@ -74,9 +74,9 @@
                         <flux:badge size="sm" color="{{ $endpoint->getVisibilityColor() }}">
                             {{ $endpoint->getVisibilityLabel() }}
                         </flux:badge>
-                        @if ($endpoint->histories->last())
+                        @if ($endpoint->latestHistory)
                             <span class="text-xs text-zinc-400 dark:text-zinc-500 mt-1">
-                                {{ $endpoint->histories->last()->created_at->diffForHumans() }}
+                                {{ $endpoint->latestHistory->created_at->diffForHumans() }}
                             </span>
                         @else
                             <span class="text-xs text-zinc-400 dark:text-zinc-500 mt-1">No requests yet</span>

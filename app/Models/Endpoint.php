@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
@@ -77,16 +78,11 @@ class Endpoint extends Model
     }
 
     /**
-     * Returns a human readable time since the last request was made to this endpoint.
-     * */
-    public function timeSinceLastRequest(): string {
-        $newest_history = EndpointHistory::where('endpoint_id', $this->id)->orderBy('created_at', 'desc')->first();
-
-        if (!$newest_history) {
-            return "No requests yet";
-        }
-
-        return $newest_history->created_at->diffForHumans();
+     * Efficiently retrieves the single most recent history record.
+     * Use this for eager loading instead of histories()->latest()->first().
+     */
+    public function latestHistory(): HasOne {
+        return $this->hasOne(EndpointHistory::class)->latestOfMany();
     }
 
     /**
