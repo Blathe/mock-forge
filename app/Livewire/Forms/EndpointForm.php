@@ -44,8 +44,15 @@ class EndpointForm extends Form
                 'required',
                 'string',
                 'max:64',
+                'regex:/^[a-z0-9][a-z0-9\-_\/]*$/',
                 Rule::unique('endpoints')->where(fn ($query) => $query->where('user_id', Auth::id()))->whereNull('deleted_at'), //slugs must be unique per user, ignoring soft deleted entries.
             ],
+        ];
+    }
+
+    public function messages() {
+        return [
+            'slug.regex' => 'The slug may only contain lowercase letters, numbers, hyphens, underscores, and forward slashes, and must start with a letter or number.',
         ];
     }
 
