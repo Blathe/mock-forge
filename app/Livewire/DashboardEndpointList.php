@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Endpoint;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class DashboardEndpointList extends Component
 {
@@ -21,9 +22,7 @@ class DashboardEndpointList extends Component
     public function deleteEndpoint($id)
     {
         $endpoint = Endpoint::findOrFail($id);
-        if ($endpoint->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
+        Gate::authorize('delete', $endpoint);
         $endpoint->delete();
 
         session()->flash('success', __('Endpoint deleted successfully.'));
@@ -33,9 +32,7 @@ class DashboardEndpointList extends Component
 
     public function toggleEndpointVisibility($id) {
         $endpoint = Endpoint::findOrFail($id);
-        if ($endpoint->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
+        Gate::authorize('update', $endpoint);
 
         $endpoint->is_public = !$endpoint->is_public;
         $endpoint->save();
