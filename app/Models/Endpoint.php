@@ -89,8 +89,14 @@ class Endpoint extends Model
      * The endpoint is expired if it is over 7 days old.
      */
     public function isExpired(): bool {
-        $now = Carbon::now();
-        $difference = $this->created_at->diffInDays($now);
-        return $difference > 7;
+        return $this->created_at->diffInDays(Carbon::now()) > 7;
+    }
+
+    /**
+     * Scope for querying expired endpoints in bulk (avoids N+1 vs isExpired()).
+     */
+    public function scopeExpired($query)
+    {
+        return $query->where('created_at', '<=', Carbon::now()->subDays(7));
     }
 }
