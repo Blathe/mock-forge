@@ -65,7 +65,7 @@
         <flux:label>Simulated Delay</flux:label>
         <flux:description>Add latency in milliseconds to simulate a slow response.</flux:description>
         <flux:input.group class="max-w-40">
-            <flux:input wire:model="form.delay_ms" type="number" min="0" max="10000" placeholder="0" />
+            <flux:input wire:model="form.delay_ms" type="number" min="0" max="{{ config('mockforge.max_delay_ms') }}" placeholder="0" />
             <flux:input.group.suffix>ms</flux:input.group.suffix>
         </flux:input.group>
         <flux:error name="form.delay_ms" />

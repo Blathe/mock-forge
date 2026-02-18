@@ -7,8 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
 /**
- * Soft-deletes endpoints older than 7 days, then hard-deletes records
- * that have been soft-deleted for at least 5 days.
+ * Soft-deletes endpoints older than the configured expiry threshold, then
+ * hard-deletes records that have been soft-deleted beyond the retention period.
  */
 class DeleteExpiredEndpoints implements ShouldQueue
 {
@@ -25,13 +25,13 @@ class DeleteExpiredEndpoints implements ShouldQueue
     /**
      * Execute the job.
      *
-     * 1. Soft-delete active endpoints that are over 7 days old.
-     * 2. Hard-delete endpoints that have been soft-deleted for 5+ days.
+     * 1. Soft-delete active endpoints past the expiry threshold.
+     * 2. Hard-delete endpoints past the soft-delete retention period.
      */
     public function handle(): void
     {
         Endpoint::expired()->delete();
 
-        Endpoint::withTrashed()->where('deleted_at', '<=', now()->subDays(5))->forceDelete();
+        Endpoint::withTrashed()->where('deleted_at', '<=', now()->subDays(config('mockforge.soft_delete_retention_days', 5)))->forceDelete();
     }
 }

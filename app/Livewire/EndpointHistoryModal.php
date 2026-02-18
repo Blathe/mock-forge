@@ -11,9 +11,11 @@ class EndpointHistoryModal extends Component
     public $histories;
     public Endpoint $endpoint;
 
-    public $modal_history_count = 10;
+    public $modal_history_count;
 
     public function mount() {
+        $this->modal_history_count = config('mockforge.history_display_limit', 10);
+
         $this->histories = EndpointHistory::where('endpoint_id', '=', $this->endpoint->id)
         ->limit($this->modal_history_count)
         ->orderBy('created_at', 'desc')

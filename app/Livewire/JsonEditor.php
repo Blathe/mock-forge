@@ -11,9 +11,10 @@ class JsonEditor extends Component
     public Endpoint $endpoint;
     public string $payload = '';
 
-    public int $max_payload_size = 25000; //TODO: maybe make this an ENV var?
+    public int $max_payload_size;
 
     public function mount(Endpoint $endpoint) {
+        $this->max_payload_size = config('mockforge.max_payload_bytes', 25000);
         $this->endpoint = $endpoint;
         $this->payload = $endpoint->payload
         ? json_encode($endpoint->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
@@ -22,7 +23,7 @@ class JsonEditor extends Component
 
     public function save() {
         if (strlen($this->payload) > $this->max_payload_size) {
-            session()->flash('error', 'JSON payload is too large. It must be under 25kb.');
+            session()->flash('error', 'JSON payload is too large. It must be under ' . ($this->max_payload_size / 1000) . 'kb.');
             return;
         }
 

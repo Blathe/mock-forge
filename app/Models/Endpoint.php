@@ -86,10 +86,10 @@ class Endpoint extends Model
     }
 
     /**
-     * The endpoint is expired if it is over 7 days old.
+     * The endpoint is expired if it is over the configured expiry threshold.
      */
     public function isExpired(): bool {
-        return $this->created_at->diffInDays(Carbon::now()) > 7;
+        return $this->created_at->diffInDays(Carbon::now()) > config('mockforge.endpoint_expiry_days', 7);
     }
 
     /**
@@ -97,6 +97,6 @@ class Endpoint extends Model
      */
     public function scopeExpired($query)
     {
-        return $query->where('created_at', '<=', Carbon::now()->subDays(7));
+        return $query->where('created_at', '<=', Carbon::now()->subDays(config('mockforge.endpoint_expiry_days', 7)));
     }
 }

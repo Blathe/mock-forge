@@ -29,7 +29,7 @@ class EndpointForm extends Form
     #[Validate('required|integer|in:200,201,202,204,301,302,400,401,403,404,405,408,409,410,422,429,500,502,503,504')]
     public int $status_code = 200;
 
-    #[Validate('integer|min:0|max:10000')]
+    #[Validate]
     public int $delay_ms = 0;
 
     #[Validate('boolean')]
@@ -46,6 +46,11 @@ class EndpointForm extends Form
                 'max:64',
                 'regex:/^[a-z0-9][a-z0-9\-_\/]*$/',
                 Rule::unique('endpoints')->where(fn ($query) => $query->where('user_id', Auth::id()))->whereNull('deleted_at'), //slugs must be unique per user, ignoring soft deleted entries.
+            ],
+            'delay_ms' => [
+                'integer',
+                'min:0',
+                'max:' . config('mockforge.max_delay_ms', 10000),
             ],
         ];
     }

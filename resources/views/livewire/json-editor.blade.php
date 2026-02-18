@@ -2,7 +2,7 @@
     <div class="flex items-start justify-between mb-4">
         <div>
             <p class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest mb-1">Payload</p>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400">The JSON returned by this endpoint. Max size: 25kb.</p>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400">The JSON returned by this endpoint. Max size: {{ $max_payload_size / 1000 }}kb.</p>
         </div>
     </div>
 
