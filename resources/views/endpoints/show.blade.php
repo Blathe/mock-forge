@@ -32,6 +32,9 @@
             <flux:modal.trigger name="view-history-modal">
                 <flux:button icon="clock">History</flux:button>
             </flux:modal.trigger>
+            <flux:modal.trigger name="edit-endpoint">
+                <flux:button icon="pencil-square">Edit</flux:button>
+            </flux:modal.trigger>
             <flux:modal.trigger name="test-endpoint">
                 <flux:button variant="primary" color="emerald" icon="play">Test Endpoint</flux:button>
             </flux:modal.trigger>
@@ -120,6 +123,11 @@
 
         </div>
     </div>
+
+    <!-- Edit Endpoint Modal -->
+    <flux:modal name="edit-endpoint" class="w-full md:max-w-lg">
+        <livewire:edit-endpoint-modal :endpoint="$endpoint" />
+    </flux:modal>
 
     <!-- Test Endpoint Modal -->
     <flux:modal name="test-endpoint" class="md:w-screen">
