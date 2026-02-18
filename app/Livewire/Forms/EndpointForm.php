@@ -26,7 +26,7 @@ class EndpointForm extends Form
     #[Validate('nullable|string|max:255|required_if:require_auth,true')]
     public ?string $auth_token = null;
 
-    #[Validate('required|integer')]
+    #[Validate('required|integer|in:200,201,202,204,301,302,400,401,403,404,405,408,409,410,422,429,500,502,503,504')]
     public int $status_code = 200;
 
     #[Validate('integer|min:0|max:10000')]

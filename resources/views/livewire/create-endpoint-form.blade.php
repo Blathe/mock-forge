@@ -34,6 +34,34 @@
     </flux:field>
 
     <flux:field>
+        <flux:label>Status Code</flux:label>
+        <flux:description>The HTTP status code this endpoint will return.</flux:description>
+        <flux:select wire:model="form.status_code" class="max-w-48">
+            <flux:select.option value="200">200 — OK</flux:select.option>
+            <flux:select.option value="201">201 — Created</flux:select.option>
+            <flux:select.option value="202">202 — Accepted</flux:select.option>
+            <flux:select.option value="204">204 — No Content</flux:select.option>
+            <flux:select.option value="301">301 — Moved Permanently</flux:select.option>
+            <flux:select.option value="302">302 — Found</flux:select.option>
+            <flux:select.option value="400">400 — Bad Request</flux:select.option>
+            <flux:select.option value="401">401 — Unauthorized</flux:select.option>
+            <flux:select.option value="403">403 — Forbidden</flux:select.option>
+            <flux:select.option value="404">404 — Not Found</flux:select.option>
+            <flux:select.option value="405">405 — Method Not Allowed</flux:select.option>
+            <flux:select.option value="408">408 — Request Timeout</flux:select.option>
+            <flux:select.option value="409">409 — Conflict</flux:select.option>
+            <flux:select.option value="410">410 — Gone</flux:select.option>
+            <flux:select.option value="422">422 — Unprocessable Entity</flux:select.option>
+            <flux:select.option value="429">429 — Too Many Requests</flux:select.option>
+            <flux:select.option value="500">500 — Internal Server Error</flux:select.option>
+            <flux:select.option value="502">502 — Bad Gateway</flux:select.option>
+            <flux:select.option value="503">503 — Service Unavailable</flux:select.option>
+            <flux:select.option value="504">504 — Gateway Timeout</flux:select.option>
+        </flux:select>
+        <flux:error name="form.status_code" />
+    </flux:field>
+
+    <flux:field>
         <flux:label>Simulated Delay</flux:label>
         <flux:description>Add latency in milliseconds to simulate a slow response.</flux:description>
         <flux:input.group class="max-w-40">
