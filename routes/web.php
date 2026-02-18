@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-Route::group([], function() {
+Route::middleware(['throttle:120,1'])->group(function () {
     Route::get('api/{user_id}/{slug}', [ApiController::class, 'show'])
         ->where('slug', '.*')
         ->name('api.user.show');

@@ -3,10 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Endpoint;
-use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class TestEndpointModal extends Component
@@ -40,8 +38,8 @@ class TestEndpointModal extends Component
                 $this->payload = json_encode($response->json(), JSON_PRETTY_PRINT);
             }
 
-        } catch (Exception $ex) {
-            dd($ex->getMessage());
+        } catch (ConnectionException) {
+            $this->statusCode = 'Connection failed';
         }
     }
 }

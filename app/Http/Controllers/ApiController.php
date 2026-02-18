@@ -19,7 +19,7 @@ class ApiController extends Controller
 
         $faker = Factory::create();
 
-        $result = preg_replace_callback('/{{(.*?)}}/', function ($matches) use ($faker) {
+        $result = preg_replace_callback('/{{(name|email|number|string)}}/', function ($matches) use ($faker) {
             $placeholder = $matches[1];
             switch ($placeholder) {
                 case 'name':
@@ -58,7 +58,7 @@ class ApiController extends Controller
 
         if ($endpoint->require_auth) {
             $provided = $request->bearerToken();
-            if(!$provided || $provided !== $endpoint->auth_token) {
+            if (!$provided || !hash_equals($endpoint->auth_token, $provided)) {
                 $response_time = $start_time->diffInMilliseconds(Carbon::now());
                 CreateEndpointHistory::dispatch(
                     $endpoint->id, 401, $response_time, 0); //create an unauthorized attempt in history.
@@ -78,8 +78,7 @@ class ApiController extends Controller
             strlen($response->content())
         );
 
-        $endpoint->request_count += 1;
-        $endpoint->save();
+        $endpoint->increment('request_count');
 
         return $response;
     }
