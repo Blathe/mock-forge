@@ -22,6 +22,14 @@
         </div>
     @endif
 
+    @if ($endpoint->require_auth)
+        <!-- Bearer Token -->
+        <div class="space-y-1.5">
+            <label class="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Bearer Token</label>
+            <flux:input wire:model="bearerToken" type="password" placeholder="Enter bearer token..." icon="key" />
+        </div>
+    @endif
+
     <!-- Action -->
     <form wire:submit="makeRequest">
         <flux:button variant="primary" color="emerald" type="submit" icon="play" wire:loading.attr="disabled">

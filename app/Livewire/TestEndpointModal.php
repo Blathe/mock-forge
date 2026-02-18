@@ -12,6 +12,7 @@ class TestEndpointModal extends Component
     public Endpoint $endpoint;
     public $statusCode = '';
     public $payload = '';
+    public $bearerToken = '';
 
     public function mount(Endpoint $endpoint)
     {
@@ -30,13 +31,15 @@ class TestEndpointModal extends Component
     public function makeRequest()
     {
         try {
-            $response = Http::get($this->endpoint->getFullUrl());
+            $request = Http::when(
+                $this->endpoint->require_auth && $this->bearerToken,
+                fn ($http) => $http->withToken($this->bearerToken)
+            );
+
+            $response = $request->get($this->endpoint->getFullUrl());
 
             $this->statusCode = $response->status();
-
-            if ($response->successful()){
-                $this->payload = json_encode($response->json(), JSON_PRETTY_PRINT);
-            }
+            $this->payload = json_encode($response->json(), JSON_PRETTY_PRINT);
 
         } catch (ConnectionException) {
             $this->statusCode = 'Connection failed';
